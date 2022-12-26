@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Book Store</string>
+
+    <!-- ========== basic words ==========  -->
+    <string name="yes">Da</string>
+    <string name="no">Ne</string>
+    <!-- ========== basic words ==========  -->
+
+
+    <!-- ========== Main activity ==========  -->
+    <string name="ExitDialog">Pritisnite ponovno za izlaz</string>
+    <!-- ========== Main activity ==========  -->
+
+    <!-- ========== login activity ==========  -->
+
+    <string name="loginTV">Prijava</string>
+    <string name="emailInputhint">Email</string>
+    <string name="passwordInputhint">Lozinka</string>
+    <string name="forgotPassword">Zaboravili ste lozinku?</string>
+    <string name="btnLogin">Prijava</string>
+    <string name="tvNoAccount">Nemate račun?</string>
+
+    <string name="loginComplited">Uspješno ste se prijavili!</string>
+
+    <!-- ========== login activity ==========  -->
+
+    <!-- ========== register activity ==========  -->
+
+    <string name="registerTV">Registracija</string>
+    <string name="accountExistLink">Imate već račun?</string>
+    <string name="btnRegister">Registracija</string>
+    <string name="ConfirmPasswordInputHint">Potvrdite lozinku</string>
+    <string name="invalidEmail">Unesite ispravni email!</string>
+    <string name="emptyPasswordError">Unestite lozinku!</string>
+    <string name="passwordLenghtError">Lozinka je manja od 7 znakova!</string>
+    <string name="passwordMatchError">Lozinke nisu jednake!</string>
+    <string name="nameInputhint">Ime</string>
+    <string name="surnameInputhint">Prezime</string>
+
+    <string name="registerComplited">Registracija je uspješna!</string>
+
+
+    <!-- ========== register activity ==========  -->
+
+    <!-- ========== Settings fragment ==========  -->
+    <string name="LogoutDialog">Odjava?</string>
+
+    <!-- ========== Settings fragment ==========  -->
+
+
+    <!-- ========== BookInfo fragment ==========  -->
+    <string name="tvBookName">Naziv knjige</string>
+
+    <!-- ========== BookInfo fragment ==========  -->
+
+
+</resources>

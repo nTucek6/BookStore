@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Book Store</string>
+
+    <!-- ========== basic words ==========  -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <!-- ========== basic words ==========  -->
+
+    <!-- ========== Main activity ==========  -->
+    <string name="ExitDialog">Press back again to exit</string>
+    <!-- ========== Main activity ==========  -->
+
+
+    <!-- ========== login activity ==========  -->
+
+    <string name="loginTV">Login</string>
+    <string name="emailInputhint">Email</string>
+    <string name="passwordInputhint">Password</string>
+    <string name="forgotPassword">Forgot password?</string>
+    <string name="btnLogin">Login</string>
+    <string name="tvNoAccount">No account?</string>
+    <string name="loginComplited">Login successful!</string>
+    <!-- ========== login activity ==========  -->
+
+    <!-- ========== register activity ==========  -->
+
+    <string name="registerTV">Register</string>
+    <string name="accountExistLink">Already have account?</string>
+    <string name="btnRegister">Register</string>
+    <string name="ConfirmPasswordInputHint">Confirm password</string>
+    <string name="invalidEmail">Invalid email address!</string>
+    <string name="emptyPasswordError">Enter password!</string>
+    <string name="passwordLenghtError">Password length less that 7!</string>
+    <string name="passwordMatchError">Password do not match!</string>
+    <string name="nameInputhint">Name</string>
+    <string name="surnameInputhint">Surname</string>
+
+    <string name="registerComplited">Registration is successful!</string>
+
+    <!-- ========== register activity ==========  -->
+
+    <!-- ========== Settings fragment ==========  -->
+    <string name="LogoutDialog">Logout?</string>
+
+    <!-- ========== Settings fragment ==========  -->
+
+    <!-- ========== BookInfo fragment ==========  -->
+    <string name="tvBookName">Book name</string>
+
+    <!-- ========== BookInfo fragment ==========  -->
+
+
+</resources>
