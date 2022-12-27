@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.bookstore.Adapters.BookAdapter;
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment implements SelectBookListener {
     private DatabaseReference booksTable;
     private RecyclerView bookRecyclerView;
     private LinearLayoutManager layoutManager;
+    private ProgressBar progressBar;
 
     List<Book> listBooks = new ArrayList<>();
     BookAdapter bookAdapter;
@@ -57,6 +59,7 @@ public class HomeFragment extends Fragment implements SelectBookListener {
         super.onViewCreated(view, savedInstanceState);
         booksTable = FirebaseDatabase.getInstance().getReference("books");
         bookRecyclerView = view.findViewById(R.id.BookRecyclerViewLatest);
+        progressBar = view.findViewById(R.id.progressBar);
         ReadFromDatabase();
     }
 
@@ -67,7 +70,7 @@ public class HomeFragment extends Fragment implements SelectBookListener {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
-                    // Log.e("firebase", "Error getting data", task.getException());
+                    progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -83,6 +86,7 @@ public class HomeFragment extends Fragment implements SelectBookListener {
                     bookRecyclerView.setLayoutManager(layoutManager);
                     bookAdapter = new BookAdapter(listBooks, getActivity(),HomeFragment.this);
                     bookRecyclerView.setAdapter(bookAdapter);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -90,8 +94,6 @@ public class HomeFragment extends Fragment implements SelectBookListener {
 
     @Override
     public void onBookClicked(Book book) {
-       // Toast.makeText(getActivity(),book.getName(),Toast.LENGTH_SHORT).show();
-
         ((MainActivity) getActivity()).BookInfo(book);
     }
 }

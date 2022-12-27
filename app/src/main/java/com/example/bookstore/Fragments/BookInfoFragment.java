@@ -66,6 +66,7 @@ public class BookInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity)getActivity()).navigationBar(new HomeFragment());
+
             }
         });
 

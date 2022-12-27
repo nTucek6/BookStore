@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity  {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        navigationBar(new HomeFragment());
 
+        navigationBar(new HomeFragment());
 
         binding.NavigationBar.setOnItemSelectedListener(item ->
         {
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity  {
                     navigationBar(new SettingsFragment());
                     break;
             }
-
             return true;
         });
 
@@ -96,16 +95,10 @@ public class MainActivity extends AppCompatActivity  {
 
     public void navigationBar(Fragment fragment)
     {
-       /* if(getSupportFragmentManager().findFragmentById(R.id.frame_layout)  != fragment)
-        {
-
-        } */
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+       //FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
-        //Toast.makeText(MainActivity.this,"Fragment",Toast.LENGTH_SHORT).show();
-
     }
 
     public void BookInfo(Book book)
@@ -114,7 +107,6 @@ public class MainActivity extends AppCompatActivity  {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,new BookInfoFragment(book));
         fragmentTransaction.commit();
-
     }
 
   /*  private void ReadFromDatabase()
