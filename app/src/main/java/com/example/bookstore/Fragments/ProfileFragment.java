@@ -69,7 +69,6 @@ public class ProfileFragment extends Fragment {
         String key = mUser.getUid();
         ReadUserFromDatabase(key);
 
-
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,12 +86,10 @@ public class ProfileFragment extends Fragment {
                         .show();
             }
         });
-
     }
 
     private void ReadUserFromDatabase(String key) {
         Query query = userTable.orderByChild("userUID").equalTo(key);
-
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,11 +104,5 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getActivity(),"",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
-
-
-
 }

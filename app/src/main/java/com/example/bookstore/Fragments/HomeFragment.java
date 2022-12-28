@@ -38,12 +38,15 @@ public class HomeFragment extends Fragment implements SelectBookListener {
     private LinearLayoutManager layoutManager;
     private ProgressBar progressBar;
 
-    List<Book> listBooks = new ArrayList<>();
+    private View rootView;
+
+    private List<Book> listBooks = new ArrayList<>();
     BookAdapter bookAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -51,49 +54,73 @@ public class HomeFragment extends Fragment implements SelectBookListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        //return inflater.inflate(R.layout.fragment_home, container, false);
+        rootView =  inflater.inflate(R.layout.fragment_home, container, false);
+
+        booksTable = FirebaseDatabase.getInstance().getReference("books");
+
+        bookRecyclerView = rootView.findViewById(R.id.BookRecyclerViewLatest);
+        progressBar = rootView.findViewById(R.id.progressBar);
+
+        if(listBooks.size() > 0)
+        {
+            SetUpRecycleView();
+        }
+        else
+        {
+            ReadFromDatabase();
+        }
+
+        return rootView;
     }
 
-    @Override
+  /*   @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        booksTable = FirebaseDatabase.getInstance().getReference("books");
+       booksTable = FirebaseDatabase.getInstance().getReference("books");
         bookRecyclerView = view.findViewById(R.id.BookRecyclerViewLatest);
         progressBar = view.findViewById(R.id.progressBar);
         ReadFromDatabase();
-    }
+    }*/
 
     private void ReadFromDatabase()
     {
         //limitToLast(4)
-        booksTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Book book = new Book();
-                    for(DataSnapshot ds : task.getResult().getChildren())
-                    {
-                        book.setKey(ds.getKey());
-                        book = ds.getValue(Book.class);
-                        listBooks.add(book);
+
+            booksTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
                     }
-                    layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
-                    bookRecyclerView.setLayoutManager(layoutManager);
-                    bookAdapter = new BookAdapter(listBooks, getActivity(),HomeFragment.this);
-                    bookRecyclerView.setAdapter(bookAdapter);
-                    progressBar.setVisibility(View.INVISIBLE);
+                    else
+                    {
+                        Book book = new Book();
+                        for(DataSnapshot ds : task.getResult().getChildren())
+                        {
+                            book.setKey(ds.getKey());
+                            book = ds.getValue(Book.class);
+                            listBooks.add(book);
+                        }
+                        SetUpRecycleView();
+                    }
                 }
-            }
-        });
+            });
     }
 
     @Override
     public void onBookClicked(Book book) {
         ((MainActivity) getActivity()).BookInfo(book);
     }
+
+    private void SetUpRecycleView()
+    {
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
+        bookRecyclerView.setLayoutManager(layoutManager);
+        bookAdapter = new BookAdapter(listBooks, getActivity(),HomeFragment.this);
+        bookRecyclerView.setAdapter(bookAdapter);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
 }

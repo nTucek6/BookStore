@@ -35,6 +35,15 @@ public class BookInfoFragment extends Fragment {
 
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        getFragmentManager().beginTransaction().remove((Fragment) BookInfoFragment.this).commitAllowingStateLoss();
+
+    }
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -66,7 +75,9 @@ public class BookInfoFragment extends Fragment {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).navigationBar(new HomeFragment());
+                //((MainActivity)getActivity()).navigationBar(new HomeFragment());
+                ((MainActivity)getActivity()).navigationBar("Home");
+                ((MainActivity)getActivity()).DestroyBookInfo();
 
             }
         });
