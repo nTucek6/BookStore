@@ -21,6 +21,7 @@ import com.example.bookstore.R;
 
 public class BookInfoFragment extends Fragment {
 
+    private View rootView;
     private Book book;
 
     private TextView tvBookName,tvBookGenre,tvBookAuthor;
@@ -35,15 +36,6 @@ public class BookInfoFragment extends Fragment {
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        getFragmentManager().beginTransaction().remove((Fragment) BookInfoFragment.this).commitAllowingStateLoss();
-
-    }
-
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -53,18 +45,15 @@ public class BookInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book_info, container, false);
-    }
+        rootView = inflater.inflate(R.layout.fragment_book_info, container, false);
 
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
         //Toast.makeText(getActivity(),book.getName(),Toast.LENGTH_SHORT).show();
-        tvBookName = view.findViewById(R.id.tvBookName);
+        tvBookName = rootView.findViewById(R.id.tvBookName);
         //btnBack = view.findViewById(R.id.btnBack);
-        ivBack = view.findViewById(R.id.ivBack);
-        ivBookImage = view.findViewById(R.id.ivBookImage);
-        tvBookGenre = view.findViewById(R.id.tvBookGenre);
-        tvBookAuthor = view.findViewById(R.id.tvBookAuthor);
+        ivBack = rootView.findViewById(R.id.ivBack);
+        ivBookImage = rootView.findViewById(R.id.ivBookImage);
+        tvBookGenre = rootView.findViewById(R.id.tvBookGenre);
+        tvBookAuthor = rootView.findViewById(R.id.tvBookAuthor);
 
 
         Glide.with(getActivity()).load(book.getImageURL()).into(ivBookImage);
@@ -77,11 +66,12 @@ public class BookInfoFragment extends Fragment {
             public void onClick(View view) {
                 //((MainActivity)getActivity()).navigationBar(new HomeFragment());
                 ((MainActivity)getActivity()).navigationBar("Home");
-                ((MainActivity)getActivity()).DestroyBookInfo();
+                ((MainActivity)getActivity()).DestroyArticleInfo();
 
             }
         });
 
+        return rootView;
     }
 
 }

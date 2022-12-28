@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.bookstore.Classes.Book;
+import com.example.bookstore.Classes.Comic;
 import com.example.bookstore.Fragments.BookInfoFragment;
+import com.example.bookstore.Fragments.ComicInfoFragment;
 import com.example.bookstore.Fragments.HomeFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
 import com.example.bookstore.databinding.ActivityMainBinding;
@@ -22,8 +24,8 @@ public class MainActivity extends AppCompatActivity  {
 
     private long pressedTime;
 
-    private HomeFragment homeFragment = new HomeFragment();
-    private ProfileFragment profileFragment = new ProfileFragment();
+    private HomeFragment homeFragment;
+    private ProfileFragment profileFragment;
 
 
     @Override
@@ -48,7 +50,9 @@ public class MainActivity extends AppCompatActivity  {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //navigationBar(new HomeFragment());
+        homeFragment = new HomeFragment();
+        profileFragment = new ProfileFragment();
+
         SetFragments();
 
         binding.NavigationBar.setOnItemSelectedListener(item ->
@@ -107,9 +111,7 @@ public class MainActivity extends AppCompatActivity  {
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.attach(profileFragment);
         }
-
         fragmentTransaction.commit();
-
     }
 
     public void BookInfo(Book book)
@@ -121,13 +123,23 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.commit();
     }
 
-    public void DestroyBookInfo()
+    public void ComicInfo(Comic comic)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+        fragmentTransaction.add(R.id.frame_layout,new ComicInfoFragment(comic));
+        fragmentTransaction.commit();
+    }
+
+    public void DestroyArticleInfo()
     {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.attach(homeFragment);
         fragmentTransaction.commit();
     }
+
 
 
   /*  private void ReadFromDatabase()

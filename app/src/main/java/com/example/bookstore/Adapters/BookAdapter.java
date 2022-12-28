@@ -11,7 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bookstore.Classes.Book;
-import com.example.bookstore.Interfaces.SelectBookListener;
+import com.example.bookstore.Interfaces.SelectArticleListener;
 import com.example.bookstore.R;
 
 
@@ -22,9 +22,9 @@ public class BookAdapter extends
 
     private List<Book> booksList;
     private Context context;
-    private SelectBookListener listener;
+    private SelectArticleListener listener;
 
-    public  BookAdapter(List<Book> saveBooks, Context context, SelectBookListener listener)
+    public  BookAdapter(List<Book> saveBooks, Context context, SelectArticleListener listener)
     {
         this.booksList = saveBooks;
         this.context = context;
