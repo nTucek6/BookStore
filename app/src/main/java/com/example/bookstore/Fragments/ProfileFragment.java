@@ -1,21 +1,26 @@
 package com.example.bookstore.Fragments;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bookstore.Adapters.BookAdapter;
 import com.example.bookstore.Classes.Book;
 import com.example.bookstore.Classes.User;
+import com.example.bookstore.LoginActivity;
 import com.example.bookstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +42,7 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference userTable;
 
     private TextView tvName,tvSurname;
+    private Button logoutBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,14 +61,32 @@ public class ProfileFragment extends Fragment {
 
         tvName = view.findViewById(R.id.tvName);
         tvSurname = view.findViewById(R.id.tvSurname);
+        logoutBtn = view.findViewById(R.id.logoutBtn);
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         userTable = FirebaseDatabase.getInstance().getReference("users");
-
         String key = mUser.getUid();
-
         ReadUserFromDatabase(key);
+
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(getString(R.string.LogoutDialog))
+                        .setCancelable(false)
+                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mAuth.signOut();
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                getActivity().finish();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.no), null)
+                        .show();
+            }
+        });
 
     }
 

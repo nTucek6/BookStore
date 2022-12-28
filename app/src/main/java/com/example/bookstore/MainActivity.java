@@ -1,45 +1,18 @@
 package com.example.bookstore;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.bookstore.Adapters.BookAdapter;
 import com.example.bookstore.Classes.Book;
 import com.example.bookstore.Fragments.BookInfoFragment;
 import com.example.bookstore.Fragments.HomeFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
-import com.example.bookstore.Fragments.SettingsFragment;
-import com.example.bookstore.Interfaces.SelectBookListener;
 import com.example.bookstore.databinding.ActivityMainBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -81,9 +54,9 @@ public class MainActivity extends AppCompatActivity  {
                 case R.id.user:
                     navigationBar(new ProfileFragment());
                     break;
-                case R.id.settings:
-                    navigationBar(new SettingsFragment());
-                    break;
+               /* case R.id.settings:
+                    //navigationBar(new );
+                    break; */
             }
             return true;
         });

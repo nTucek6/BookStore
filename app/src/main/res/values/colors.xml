@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="LightCoral">#F08080</color>
     <color name="orange_shade">#ff7211</color>
 
 </resources>

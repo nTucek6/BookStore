@@ -42,10 +42,11 @@
 
     <!-- ========== register activity ==========  -->
 
-    <!-- ========== Settings fragment ==========  -->
+    <!-- ========== Profile fragment ==========  -->
     <string name="LogoutDialog">Odjava?</string>
+    <string name="btnLogout">Odjava</string>
 
-    <!-- ========== Settings fragment ==========  -->
+    <!-- ========== Profile fragment ==========  -->
 
 
     <!-- ========== BookInfo fragment ==========  -->

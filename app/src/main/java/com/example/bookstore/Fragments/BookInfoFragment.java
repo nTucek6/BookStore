@@ -24,8 +24,8 @@ public class BookInfoFragment extends Fragment {
     private Book book;
 
     private TextView tvBookName,tvBookGenre,tvBookAuthor;
-    private Button btnBack;
-    private ImageView ivBookImage;
+    //private Button btnBack;
+    private ImageView ivBookImage,ivBack;
 
 
     public BookInfoFragment(Book book)
@@ -51,7 +51,8 @@ public class BookInfoFragment extends Fragment {
     {
         //Toast.makeText(getActivity(),book.getName(),Toast.LENGTH_SHORT).show();
         tvBookName = view.findViewById(R.id.tvBookName);
-        btnBack = view.findViewById(R.id.btnBack);
+        //btnBack = view.findViewById(R.id.btnBack);
+        ivBack = view.findViewById(R.id.ivBack);
         ivBookImage = view.findViewById(R.id.ivBookImage);
         tvBookGenre = view.findViewById(R.id.tvBookGenre);
         tvBookAuthor = view.findViewById(R.id.tvBookAuthor);
@@ -62,7 +63,7 @@ public class BookInfoFragment extends Fragment {
         tvBookGenre.setText(book.getGenres());
         tvBookAuthor.setText(book.getAuthor());
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity)getActivity()).navigationBar(new HomeFragment());

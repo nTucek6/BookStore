@@ -40,10 +40,10 @@
 
     <!-- ========== register activity ==========  -->
 
-    <!-- ========== Settings fragment ==========  -->
+    <!-- ========== Profile fragment ==========  -->
     <string name="LogoutDialog">Logout?</string>
-
-    <!-- ========== Settings fragment ==========  -->
+    <string name="btnLogout">Logout</string>
+    <!-- ========== Profile fragment ==========  -->
 
     <!-- ========== BookInfo fragment ==========  -->
     <string name="tvBookName">Book name</string>
