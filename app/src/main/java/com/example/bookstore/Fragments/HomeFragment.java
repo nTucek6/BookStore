@@ -52,6 +52,8 @@ public class HomeFragment extends Fragment implements SelectArticleListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        booksTable = FirebaseDatabase.getInstance().getReference("books");
+        comicsTable = FirebaseDatabase.getInstance().getReference("comics");
 
     }
 
@@ -61,9 +63,6 @@ public class HomeFragment extends Fragment implements SelectArticleListener {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_home, container, false);
         rootView =  inflater.inflate(R.layout.fragment_home, container, false);
-
-        booksTable = FirebaseDatabase.getInstance().getReference("books");
-        comicsTable = FirebaseDatabase.getInstance().getReference("comics");
 
         bookRecyclerView = rootView.findViewById(R.id.BookRecyclerViewLatest);
         comicRecyclerView = rootView.findViewById(R.id.ComicRecyclerViewLatest);
@@ -78,15 +77,15 @@ public class HomeFragment extends Fragment implements SelectArticleListener {
         else
         {
             ReadFromDatabase();
-            progressBar.setVisibility(View.INVISIBLE);
-        }
+            //progressBar.setVisibility(View.INVISIBLE);
 
+        }
         return rootView;
     }
 
     private void ReadFromDatabase()
     {
-            booksTable.limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        booksTable.limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {
@@ -102,6 +101,7 @@ public class HomeFragment extends Fragment implements SelectArticleListener {
                             book = ds.getValue(Book.class);
                             listBooks.add(book);
                         }
+
                         if(listBooks.size()>0)
                         {
                             SetUpBookRecycleView();
@@ -130,6 +130,7 @@ public class HomeFragment extends Fragment implements SelectArticleListener {
                     if(listComics.size() > 0)
                     {
                         SetUpComicRecycleView();
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 }
             }

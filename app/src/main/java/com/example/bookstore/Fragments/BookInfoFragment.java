@@ -55,7 +55,6 @@ public class BookInfoFragment extends Fragment {
         tvBookGenre = rootView.findViewById(R.id.tvBookGenre);
         tvBookAuthor = rootView.findViewById(R.id.tvBookAuthor);
 
-
         Glide.with(getActivity()).load(book.getImageURL()).into(ivBookImage);
         tvBookName.setText(book.getName());
         tvBookGenre.setText(book.getGenres());
@@ -64,10 +63,7 @@ public class BookInfoFragment extends Fragment {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //((MainActivity)getActivity()).navigationBar(new HomeFragment());
-                ((MainActivity)getActivity()).navigationBar("Home");
                 ((MainActivity)getActivity()).DestroyArticleInfo();
-
             }
         });
 

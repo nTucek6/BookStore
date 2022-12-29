@@ -42,6 +42,13 @@
 
     <!-- ========== register activity ==========  -->
 
+    <!-- ========== Home fragment ==========  -->
+    <string name="tvLatestBooks">Najnovije knjige</string>
+    <string name="tvLatestComics">Najnoviji stripovi</string>
+
+    <!-- ========== Home fragment ==========  -->
+
+
     <!-- ========== Profile fragment ==========  -->
     <string name="LogoutDialog">Odjava?</string>
     <string name="btnLogout">Odjava</string>
@@ -51,10 +58,17 @@
 
     <!-- ========== BookInfo fragment ==========  -->
     <string name="tvBookName">Naziv knjige</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btnCart">Dodaj u košaricu</string>
 
     <!-- ========== BookInfo fragment ==========  -->
+
+
+    <!-- ========== top navigation home ==========  -->
+    <string name="btnFeatured">Istaknuto</string>
+    <string name="btnAllBooks">Sve knjige</string>
+    <string name="btnAllComics">Svi stripovi</string>
+
+    <!-- ========== top navigation home ==========  -->
 
 
 </resources>

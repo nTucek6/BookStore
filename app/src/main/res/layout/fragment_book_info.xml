@@ -16,13 +16,6 @@
         android:background="@color/orange_shade"
         >
 
-       <!-- <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Unazad"
-            /> -->
-
         <ImageView
             android:id="@+id/ivBack"
             android:layout_width="35dp"
@@ -76,6 +69,18 @@
 
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/btnAddToCartBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/btnCart"
+        android:textAllCaps="false"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

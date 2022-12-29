@@ -31,13 +31,21 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     public void onBackPressed()
     {
-    if (pressedTime + 2000 > System.currentTimeMillis()) {
-        super.onBackPressed();
-        finish();
-        } else {
-        Toast.makeText(getBaseContext(), getString(R.string.ExitDialog), Toast.LENGTH_SHORT).show();
-    }
-     pressedTime = System.currentTimeMillis();
+        if(getSupportFragmentManager().findFragmentById(R.id.frame_layout) == homeFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == profileFragment)
+        {
+            if (pressedTime + 2000 > System.currentTimeMillis()) {
+                super.onBackPressed();
+                finish();
+            } else {
+                Toast.makeText(getBaseContext(), getString(R.string.ExitDialog), Toast.LENGTH_SHORT).show();
+            }
+            pressedTime = System.currentTimeMillis();
+        }
+        else
+        {
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 
 
@@ -88,16 +96,8 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.commit();
     }
 
-
-  //  public void navigationBar(Fragment fragment)
     public void navigationBar(String fragment)
     {
-
-       //FragmentManager fragmentManager = getSupportFragmentManager();
-      /*  FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout,fragment);
-        fragmentTransaction.commit(); */
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if(Objects.equals(fragment, "Home"))
         {
@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity  {
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.add(R.id.frame_layout,new BookInfoFragment(book));
         fragmentTransaction.commit();
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity  {
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.add(R.id.frame_layout,new ComicInfoFragment(comic));
         fragmentTransaction.commit();
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity  {
 
     public void DestroyArticleInfo()
     {
+        getSupportFragmentManager().popBackStack();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.attach(homeFragment);

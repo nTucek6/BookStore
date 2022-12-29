@@ -40,6 +40,13 @@
 
     <!-- ========== register activity ==========  -->
 
+    <!-- ========== Home fragment ==========  -->
+    <string name="tvLatestBooks">Latest books</string>
+    <string name="tvLatestComics">Latest comics</string>
+
+    <!-- ========== Home fragment ==========  -->
+
+
     <!-- ========== Profile fragment ==========  -->
     <string name="LogoutDialog">Logout?</string>
     <string name="btnLogout">Logout</string>
@@ -47,8 +54,17 @@
 
     <!-- ========== BookInfo fragment ==========  -->
     <string name="tvBookName">Book name</string>
+    <string name="btnCart">Add to cart</string>
 
     <!-- ========== BookInfo fragment ==========  -->
+
+
+    <!-- ========== top navigation home ==========  -->
+    <string name="btnFeatured">Featured</string>
+    <string name="btnAllBooks">All books</string>
+    <string name="btnAllComics">All comics</string>
+
+    <!-- ========== top navigation home ==========  -->
 
 
 </resources>

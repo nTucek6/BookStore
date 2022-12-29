@@ -21,20 +21,23 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Featured"
+                android:text="@string/btnFeatured"
                 android:textSize="10sp"
+                android:textAllCaps="false"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All books"
+                android:text="@string/btnAllBooks"
                 android:textSize="10sp"
+                android:textAllCaps="false"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All comics"
+                android:text="@string/btnAllComics"
                 android:textSize="10sp"
+                android:textAllCaps="false"
                 />
 
         </LinearLayout>

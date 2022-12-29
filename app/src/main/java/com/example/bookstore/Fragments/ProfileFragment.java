@@ -39,6 +39,8 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
+    private View rootView;
+
     private DatabaseReference userTable;
 
     private TextView tvName,tvSurname;
@@ -52,16 +54,11 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
-    }
+        rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        tvName = view.findViewById(R.id.tvName);
-        tvSurname = view.findViewById(R.id.tvSurname);
-        logoutBtn = view.findViewById(R.id.logoutBtn);
+        tvName = rootView.findViewById(R.id.tvName);
+        tvSurname = rootView.findViewById(R.id.tvSurname);
+        logoutBtn = rootView.findViewById(R.id.logoutBtn);
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -86,6 +83,8 @@ public class ProfileFragment extends Fragment {
                         .show();
             }
         });
+
+        return rootView;
     }
 
     private void ReadUserFromDatabase(String key) {
