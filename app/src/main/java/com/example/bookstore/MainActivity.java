@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity  {
 
     public void navigationBar(String fragment)
     {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);;
         if(Objects.equals(fragment, "Home"))
         {
             //Toast.makeText(this,"home",Toast.LENGTH_SHORT).show();
@@ -116,7 +117,8 @@ public class MainActivity extends AppCompatActivity  {
     public void BookInfo(Book book)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);;
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.add(R.id.frame_layout,new BookInfoFragment(book));

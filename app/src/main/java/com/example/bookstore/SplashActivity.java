@@ -19,8 +19,6 @@ import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private Button btnTryAgain;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.flStartUp,new SplashFragment());
+        fragmentTransaction.replace(R.id.flStartUp,new SplashFragment());
         fragmentTransaction.commit();
 
         Handler handler = new Handler();
@@ -43,7 +41,6 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    //Toast.makeText(SplashActivity.this,"No internet connection!",Toast.LENGTH_SHORT).show();
                     NoInternetFragment();
                 }
 
@@ -53,7 +50,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    private boolean isConnectedToInternet() {
+    public boolean isConnectedToInternet() {
 
         ConnectivityManager cm = (ConnectivityManager)SplashActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -67,8 +64,10 @@ public class SplashActivity extends AppCompatActivity {
 
     private void NoInternetFragment()
     {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.flStartUp,new NoInternetFragment());
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+        fragmentTransaction.replace(R.id.flStartUp,new NoInternetFragment());
         fragmentTransaction.commit();
 
     }
