@@ -35,7 +35,11 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src\\main\\res', 'MainFragments', 'src\\main\\res\\layouts\\NavigationFragments', 'src\\main\\res\\layouts\\MainFragments', 'src\\main\\res\\layouts\\AdapterLayouts', 'src\\main\\res\\layouts\\StartUp', 'src\\main\\res\\layouts\\ArticleInfo'
+                srcDirs 'src\\main\\res',
+                        'src\\main\\res\\layouts\\MainFragments',
+                        'src\\main\\res\\layouts\\AdapterLayouts',
+                        'src\\main\\res\\layouts\\StartUp',
+                        'src\\main\\res\\layouts\\ArticleInfo', 'src\\main\\res\\layouts\\Login'
             }
         }
     }

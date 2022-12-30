@@ -81,9 +81,6 @@ public class MainActivity extends AppCompatActivity  {
             return true;
         });
 
-        //booksTable = FirebaseDatabase.getInstance().getReference("books");
-        //ReadFromDatabase();
-
     }
 
     private void SetFragments()
@@ -118,7 +115,7 @@ public class MainActivity extends AppCompatActivity  {
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);;
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.add(R.id.frame_layout,new BookInfoFragment(book));
@@ -128,7 +125,8 @@ public class MainActivity extends AppCompatActivity  {
     public void ComicInfo(Comic comic)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.add(R.id.frame_layout,new ComicInfoFragment(comic));
