@@ -96,12 +96,13 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.detach(profileFragment);
         fragmentTransaction.detach(shoppingCartFragmentFragment);
         fragmentTransaction.commit();
+
     }
 
     public void navigationBar(String fragment)
     {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                //.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);;
         if(Objects.equals(fragment, "Home"))
         {
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));

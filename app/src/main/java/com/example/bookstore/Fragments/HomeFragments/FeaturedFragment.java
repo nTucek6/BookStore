@@ -1,17 +1,15 @@
-package com.example.bookstore.Fragments;
+package com.example.bookstore.Fragments.HomeFragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresPermission;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +18,14 @@ import android.widget.Toast;
 
 import com.example.bookstore.Adapters.BookAdapter;
 import com.example.bookstore.Adapters.ComicAdapter;
-import com.example.bookstore.Adapters.ViewPagerHomeAdapter;
 import com.example.bookstore.Classes.Book;
 import com.example.bookstore.Classes.Comic;
-import com.example.bookstore.Fragments.HomeFragments.FeaturedFragment;
+import com.example.bookstore.Fragments.HomeFragment;
 import com.example.bookstore.Interfaces.SelectArticleListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,10 +33,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment //implements SelectArticleListener
-{
 
-  /*  private DatabaseReference booksTable;
+public class FeaturedFragment extends Fragment implements SelectArticleListener {
+
+
+    private DatabaseReference booksTable;
     private DatabaseReference comicsTable;
     private RecyclerView bookRecyclerView,comicRecyclerView;
     private LinearLayoutManager layoutManager;
@@ -53,6 +49,9 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
     private List<Comic> listComics = new ArrayList<>();
     private BookAdapter bookAdapter;
     private ComicAdapter comicAdapter;
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,13 +67,13 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_home, container, false);
-        rootView =  inflater.inflate(R.layout.fragment_home, container, false);
+        rootView =  inflater.inflate(R.layout.fragment_featured, container, false);
 
         bookRecyclerView = rootView.findViewById(R.id.BookRecyclerViewLatest);
         comicRecyclerView = rootView.findViewById(R.id.ComicRecyclerViewLatest);
         progressBar = rootView.findViewById(R.id.progressBar);
 
-        if(listBooks.size() > 0)
+       if(listBooks.size() > 0)
         {
             SetUpBookRecycleView();
             SetUpComicRecycleView();
@@ -92,30 +91,30 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
     private void ReadFromDatabase()
     {
         booksTable.limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Book book = new Book();
-                        for(DataSnapshot ds : task.getResult().getChildren())
-                        {
-                            book.setKey(ds.getKey());
-                            book = ds.getValue(Book.class);
-                            listBooks.add(book);
-                        }
-
-                        if(listBooks.size()>0)
-                        {
-                            SetUpBookRecycleView();
-                        }
-
-                    }
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
                 }
-            });
+                else
+                {
+                    Book book = new Book();
+                    for(DataSnapshot ds : task.getResult().getChildren())
+                    {
+                        book.setKey(ds.getKey());
+                        book = ds.getValue(Book.class);
+                        listBooks.add(book);
+                    }
+
+                    if(listBooks.size()>0)
+                    {
+                        SetUpBookRecycleView();
+                    }
+
+                }
+            }
+        });
 
         comicsTable.limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -155,9 +154,10 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
 
     private void SetUpBookRecycleView()
     {
+        //Log.e("WhatActivity",getActivity().toString());
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         bookRecyclerView.setLayoutManager(layoutManager);
-        bookAdapter = new BookAdapter(listBooks, getActivity(),HomeFragment.this);
+        bookAdapter = new BookAdapter(listBooks, getActivity(), FeaturedFragment.this);
         bookRecyclerView.setAdapter(bookAdapter);
     }
 
@@ -165,54 +165,7 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
     {
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         comicRecyclerView.setLayoutManager(layoutManager);
-        comicAdapter = new ComicAdapter(listComics, getActivity(),HomeFragment.this);
+        comicAdapter = new ComicAdapter(listComics, getActivity(),FeaturedFragment.this);
         comicRecyclerView.setAdapter(comicAdapter);
     }
-   */
-
-
-    private View rootView;
-    private ViewPager2 viewPager2;
-    private ViewPagerHomeAdapter viewPagerHomeAdapter;
-    private TabLayout tabLayout;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_home, container, false);
-        rootView =  inflater.inflate(R.layout.fragment_home, container, false);
-
-        viewPager2 = rootView.findViewById(R.id.viewPagerHome);
-        viewPager2.setUserInputEnabled(false);
-        viewPagerHomeAdapter = new ViewPagerHomeAdapter(getActivity());
-
-        viewPagerHomeAdapter.add(new FeaturedFragment(),getString(R.string.btnFeatured));
-        viewPagerHomeAdapter.add(new ShoppingCartFragmentFragment(),getString(R.string.btnAllBooks));
-        viewPagerHomeAdapter.add(new ShoppingCartFragmentFragment(),getString(R.string.btnAllComics));
-
-        viewPager2.setAdapter(viewPagerHomeAdapter);
-
-        tabLayout = rootView.findViewById(R.id.homeTabLayout);
-        new TabLayoutMediator(
-                tabLayout,
-                viewPager2,
-               new TabLayoutMediator.TabConfigurationStrategy()
-               {
-                   @Override
-                   public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                    tab.setText(viewPagerHomeAdapter.getPageTitle(position));
-                   }
-               }
-        ).attach();
-
-        return rootView;
-    }
-
-
 }

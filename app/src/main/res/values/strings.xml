@@ -73,6 +73,8 @@
     <string name="btnFeatured">Istaknuto</string>
     <string name="btnAllBooks">Sve knjige</string>
     <string name="btnAllComics">Svi stripovi</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- ========== top navigation home ==========  -->
 
