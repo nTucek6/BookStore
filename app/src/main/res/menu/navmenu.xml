@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/ic_baseline_home_24"
         android:id="@+id/home" />
     <item
-        android:title="Comics"
-        android:icon="@drawable/ic_comic"
-        android:id="@+id/comics" />
+        android:title="@string/shoppingCart"
+        android:icon="@drawable/ic_baseline_shopping_cart_checkout_24"
+        android:id="@+id/shoppingCart" />
     <item
-        android:title="User"
+        android:title="@string/user"
         android:icon="@drawable/ic_baseline_person_24"
-        android:id="@+id/user" />
-
+        android:id="@+id/user"/>
 </menu>

@@ -6,6 +6,12 @@
     <string name="no">Ne</string>
     <!-- ========== basic words ==========  -->
 
+    <!-- ========== Navigation ==========  -->
+    <string name="home">Početna</string>
+    <string name="shoppingCart">Košarica</string>
+    <string name="user">Korisnik</string>
+    <!-- ========== Navigation ==========  -->
+
 
     <!-- ========== Main activity ==========  -->
     <string name="ExitDialog">Pritisnite ponovno za izlaz</string>
@@ -67,8 +73,6 @@
     <string name="btnFeatured">Istaknuto</string>
     <string name="btnAllBooks">Sve knjige</string>
     <string name="btnAllComics">Svi stripovi</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- ========== top navigation home ==========  -->
 

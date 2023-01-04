@@ -7,6 +7,13 @@
     <string name="no">No</string>
     <!-- ========== basic words ==========  -->
 
+    <!-- ========== Navigation ==========  -->
+    <string name="home">Home</string>
+    <string name="shoppingCart">Shoping cart</string>
+    <string name="user">User</string>
+    <!-- ========== Navigation ==========  -->
+
+
     <!-- ========== Main activity ==========  -->
     <string name="ExitDialog">Press back again to exit</string>
     <!-- ========== Main activity ==========  -->

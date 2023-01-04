@@ -14,6 +14,7 @@ import com.example.bookstore.Fragments.BookInfoFragment;
 import com.example.bookstore.Fragments.ComicInfoFragment;
 import com.example.bookstore.Fragments.HomeFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
+import com.example.bookstore.Fragments.ShoppingCartFragmentFragment;
 import com.example.bookstore.databinding.ActivityMainBinding;
 
 import java.util.Objects;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity  {
     private long pressedTime;
 
     private HomeFragment homeFragment;
+    private ShoppingCartFragmentFragment shoppingCartFragmentFragment;
     private ProfileFragment profileFragment;
 
 
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(binding.getRoot());
 
         homeFragment = new HomeFragment();
+        shoppingCartFragmentFragment = new ShoppingCartFragmentFragment();
         profileFragment = new ProfileFragment();
 
         SetFragments();
@@ -70,13 +73,14 @@ public class MainActivity extends AppCompatActivity  {
                    // navigationBar(new HomeFragment());
                     navigationBar("Home");
                     break;
+                case R.id.shoppingCart:
+                    navigationBar("ShoppingCart" );
+                    break;
                 case R.id.user:
                    // navigationBar(new ProfileFragment());
                     navigationBar("Profile");
                     break;
-                case R.id.comics:
-                    //navigationBar(new );
-                    break;
+
             }
             return true;
         });
@@ -87,8 +91,10 @@ public class MainActivity extends AppCompatActivity  {
     {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame_layout, homeFragment);
+        fragmentTransaction.add(R.id.frame_layout,shoppingCartFragmentFragment);
         fragmentTransaction.add(R.id.frame_layout, profileFragment);
         fragmentTransaction.detach(profileFragment);
+        fragmentTransaction.detach(shoppingCartFragmentFragment);
         fragmentTransaction.commit();
     }
 
@@ -98,13 +104,16 @@ public class MainActivity extends AppCompatActivity  {
                 .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);;
         if(Objects.equals(fragment, "Home"))
         {
-            //Toast.makeText(this,"home",Toast.LENGTH_SHORT).show();
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.attach(homeFragment);
         }
+        else if(Objects.equals(fragment,"ShoppingCart"))
+        {
+            fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+            fragmentTransaction.attach(shoppingCartFragmentFragment);
+        }
         else if(Objects.equals(fragment, "Profile"))
         {
-            //Toast.makeText(this,"profile",Toast.LENGTH_SHORT).show();
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.attach(profileFragment);
         }
