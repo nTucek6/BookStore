@@ -62,6 +62,8 @@
     <!-- ========== BookInfo fragment ==========  -->
     <string name="tvBookName">Book name</string>
     <string name="btnCart">Add to cart</string>
+    <string name="tvQuantity">Quantity available: </string>
+    <string name="tvPrice">Price: </string>
 
     <!-- ========== BookInfo fragment ==========  -->
 

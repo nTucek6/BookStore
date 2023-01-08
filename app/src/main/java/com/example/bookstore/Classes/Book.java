@@ -7,6 +7,7 @@ public class Book {
     private String key;
     private String name;
     private String author;
+    private String description;
     private String genres;
     private String imageURL;
     private String published;
@@ -14,13 +15,13 @@ public class Book {
 
     public Book(){}
 
-    public Book(String name, String author, String genres,String imageURL, String published) {
+   /* public Book(String name, String author, String genres,String imageURL, String published) {
         this.name = name;
         this.author = author;
         this.genres = genres;
         this.published = published;
         this.imageURL = imageURL;
-    }
+    } */
 
     public void setKey(String key) {
         this.key = key;
@@ -68,5 +69,13 @@ public class Book {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

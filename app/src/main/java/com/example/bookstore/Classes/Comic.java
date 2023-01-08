@@ -6,13 +6,12 @@ public class Comic {
     private String key;
     private String name;
     private String author;
+    private String description;
     private String genres;
     private String imageURL;
     private String published;
 
     public Comic(){}
-
-
 
     public String getKey() {
         return key;
@@ -60,5 +59,13 @@ public class Comic {
 
     public void setPublished(String published) {
         this.published = published;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

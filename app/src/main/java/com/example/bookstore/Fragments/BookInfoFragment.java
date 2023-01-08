@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.bookstore.Classes.Book;
+import com.example.bookstore.Classes.Products;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class BookInfoFragment extends Fragment {
@@ -24,10 +32,14 @@ public class BookInfoFragment extends Fragment {
     private View rootView;
     private Book book;
 
-    private TextView tvBookName,tvBookGenre,tvBookAuthor;
-    //private Button btnBack;
+    private TextView tvBookName,tvBookGenre,tvBookAuthor,tvCopies,tvBookDescription,tvBookQuantity,tvBookPrice;
+    private Button btnMinus,btnPlus;
     private ImageView ivBookImage,ivBack;
 
+    private int numberCopies = 1;
+
+    private DatabaseReference productsBooksTable;
+    private Products productsBooks = new Products();
 
     public BookInfoFragment(Book book)
     {
@@ -38,6 +50,7 @@ public class BookInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        productsBooksTable = FirebaseDatabase.getInstance().getReference("productsBooks");
 
     }
 
@@ -54,11 +67,20 @@ public class BookInfoFragment extends Fragment {
         ivBookImage = rootView.findViewById(R.id.ivBookImage);
         tvBookGenre = rootView.findViewById(R.id.tvBookGenre);
         tvBookAuthor = rootView.findViewById(R.id.tvBookAuthor);
+        tvBookDescription = rootView.findViewById(R.id.tvBookDescription);
+        btnMinus = rootView.findViewById(R.id.btnMinus);
+        btnPlus = rootView.findViewById(R.id.btnPlus);
+        tvCopies = rootView.findViewById(R.id.tvCopies);
+        tvBookQuantity = rootView.findViewById(R.id.tvBookQuantity);
+        tvBookPrice = rootView.findViewById(R.id.tvBookPrice);
 
         Glide.with(getActivity()).load(book.getImageURL()).into(ivBookImage);
         tvBookName.setText(book.getName());
         tvBookGenre.setText(book.getGenres());
         tvBookAuthor.setText(book.getAuthor());
+        tvBookDescription.setText(book.getDescription());
+
+        ReadProductFromDatabase(book.getKey());
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +89,47 @@ public class BookInfoFragment extends Fragment {
             }
         });
 
+        btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               if(Integer.parseInt(tvCopies.getText().toString()) != 1)
+               {
+                   numberCopies -= 1;
+                   tvCopies.setText(String.valueOf(numberCopies));
+               }
+            }
+        });
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numberCopies +=1;
+                tvCopies.setText(String.valueOf(numberCopies));
+            }
+        });
+
         return rootView;
     }
+
+    private void ReadProductFromDatabase(String key) {
+        //Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
+        Query query = productsBooksTable.orderByChild("productId").equalTo(key);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    productsBooks =data.getValue(Products.class);
+                }
+                tvBookQuantity.setText(String.valueOf(productsBooks.getQuantity()));
+                tvBookPrice.setText(String.valueOf(productsBooks.getPrice()) + " " + productsBooks.getCurrency());
+                //Log.e("Data",String.valueOf(productsBooks.getQuantity()));
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(),"",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
 }

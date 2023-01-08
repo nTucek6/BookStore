@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,12 +52,15 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
     private ComicAdapter comicAdapter;
 
 
-
+   /* @Override
+     public void onResume() {
+        super.onResume();
+        rootView.requestLayout();
+    } */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         booksTable = FirebaseDatabase.getInstance().getReference("books");
         comicsTable = FirebaseDatabase.getInstance().getReference("comics");
 
@@ -73,20 +77,14 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
         comicRecyclerView = rootView.findViewById(R.id.ComicRecyclerViewLatest);
         progressBar = rootView.findViewById(R.id.progressBar);
 
-       if(listBooks.size() > 0)
-        {
-            SetUpBookRecycleView();
-            SetUpComicRecycleView();
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-        else
+        if(listBooks.size() == 0 && listComics.size() == 0)
         {
             ReadFromDatabase();
-            //progressBar.setVisibility(View.INVISIBLE);
-
         }
+
         return rootView;
     }
+
 
     private void ReadFromDatabase()
     {
@@ -99,14 +97,13 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
                 }
                 else
                 {
-                    Book book = new Book();
                     for(DataSnapshot ds : task.getResult().getChildren())
                     {
-                        book.setKey(ds.getKey());
+                        Book book = new Book();
                         book = ds.getValue(Book.class);
+                        book.setKey(ds.getKey());
                         listBooks.add(book);
                     }
-
                     if(listBooks.size()>0)
                     {
                         SetUpBookRecycleView();
@@ -128,8 +125,9 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
                     Comic comic = new Comic();
                     for(DataSnapshot ds : task.getResult().getChildren())
                     {
-                        comic.setKey(ds.getKey());
+
                         comic = ds.getValue(Comic.class);
+                        comic.setKey(ds.getKey());
                         listComics.add(comic);
                     }
                     if(listComics.size() > 0)

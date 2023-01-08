@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity  {
         }
         else if(Objects.equals(fragment,"ShoppingCart"))
         {
+            String info = getSupportFragmentManager().findFragmentById(R.id.frame_layout).toString();
+
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.attach(shoppingCartFragmentFragment);
         }
