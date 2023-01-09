@@ -1,12 +1,8 @@
 package com.example.bookstore.Interfaces;
 
-import com.example.bookstore.Classes.Book;
-import com.example.bookstore.Classes.Comic;
+import com.example.bookstore.Classes.Product;
 
 public interface SelectArticleListener
 {
-    void onBookClicked(Book book);
-
-    void onComicClicked(Comic comic);
-
+    void onArticleClicked(Product article, String type);
 }

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.bookstore.Classes.Comic;
+import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Classes.Products;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
@@ -29,7 +29,7 @@ public class ComicInfoFragment extends Fragment {
 
    private View rootView;
 
-   private Comic comic;
+   private Product comic;
 
     private TextView tvComicName,tvComicGenre,tvComicAuthor,tvCopies,tvComicDescription,tvComicQuantity,tvComicPrice;
     private ImageView ivComicImage,ivBack;
@@ -40,7 +40,7 @@ public class ComicInfoFragment extends Fragment {
 
     private int numberCopies = 1;
 
-    public ComicInfoFragment(Comic comic)
+    public ComicInfoFragment(Product comic)
     {
         this.comic = comic;
     }

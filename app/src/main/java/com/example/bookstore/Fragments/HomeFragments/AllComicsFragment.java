@@ -13,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.bookstore.Adapters.BookAdapter;
-import com.example.bookstore.Adapters.ComicAdapter;
-import com.example.bookstore.Classes.Book;
-import com.example.bookstore.Classes.Comic;
+import com.example.bookstore.Adapters.BookComicAdapter;
+import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Interfaces.SelectArticleListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
@@ -38,8 +36,8 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
 
     private DatabaseReference comicsTable;
 
-    private List<Comic> listComics = new ArrayList<>();
-    private ComicAdapter comicsAdapter;
+    private List<Product> listComics = new ArrayList<>();
+    private BookComicAdapter comicsAdapter;
     private LinearLayoutManager layoutManager;
 
     private int LoadMore = 10;
@@ -86,17 +84,17 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
                 }
                 else
                 {
-                    Comic comic = new Comic();
+
                     for(DataSnapshot ds : task.getResult().getChildren())
                     {
-                        comic = ds.getValue(Comic.class);
+                        Product comic = new Product();
+                        comic = ds.getValue(Product.class);
                         comic.setKey(ds.getKey());
                         listComics.add(comic);
                     }
                     if(listComics.size() > 0)
                     {
                         SetUpComicRecycleView();
-
                     }
                 }
             }
@@ -107,18 +105,13 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
     {
         layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerViewComic.setLayoutManager(layoutManager);
-        comicsAdapter = new ComicAdapter(listComics, getActivity(),AllComicsFragment.this);
+        comicsAdapter = new BookComicAdapter(listComics, getActivity(),AllComicsFragment.this,"comic");
         recyclerViewComic.setAdapter(comicsAdapter);
     }
 
 
     @Override
-    public void onBookClicked(Book book) {
-
-    }
-
-    @Override
-    public void onComicClicked(Comic comic) {
-        ((MainActivity) getActivity()).ComicInfo(comic);
+    public void onArticleClicked(Product comic,String type) {
+        ((MainActivity) getActivity()).ArticleInfo(comic,"comic");
     }
 }

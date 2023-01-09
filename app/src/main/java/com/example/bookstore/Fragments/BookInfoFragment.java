@@ -2,10 +2,8 @@ package com.example.bookstore.Fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.bookstore.Classes.Book;
+import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Classes.Products;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
@@ -30,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 public class BookInfoFragment extends Fragment {
 
     private View rootView;
-    private Book book;
+    private Product book;
 
     private TextView tvBookName,tvBookGenre,tvBookAuthor,tvCopies,tvBookDescription,tvBookQuantity,tvBookPrice;
     private Button btnMinus,btnPlus;
@@ -41,7 +39,7 @@ public class BookInfoFragment extends Fragment {
     private DatabaseReference productsBooksTable;
     private Products productsBooks = new Products();
 
-    public BookInfoFragment(Book book)
+    public BookInfoFragment(Product book)
     {
         this.book = book;
     }

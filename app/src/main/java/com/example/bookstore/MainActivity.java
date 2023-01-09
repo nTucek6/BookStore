@@ -1,20 +1,18 @@
 package com.example.bookstore;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.bookstore.Classes.Book;
-import com.example.bookstore.Classes.Comic;
+import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Fragments.BookInfoFragment;
 import com.example.bookstore.Fragments.ComicInfoFragment;
 import com.example.bookstore.Fragments.HomeFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
-import com.example.bookstore.Fragments.ShoppingCartFragmentFragment;
+import com.example.bookstore.Fragments.ShoppingCartFragment;
 import com.example.bookstore.databinding.ActivityMainBinding;
 
 import java.util.Objects;
@@ -26,14 +24,13 @@ public class MainActivity extends AppCompatActivity  {
     private long pressedTime;
 
     private HomeFragment homeFragment;
-    private ShoppingCartFragmentFragment shoppingCartFragmentFragment;
+    private ShoppingCartFragment shoppingCartFragment;
     private ProfileFragment profileFragment;
-
 
     @Override
     public void onBackPressed()
     {
-        if(getSupportFragmentManager().findFragmentById(R.id.frame_layout) == homeFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == profileFragment)
+        if(getSupportFragmentManager().findFragmentById(R.id.frame_layout) == homeFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == profileFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == shoppingCartFragment)
         {
             if (pressedTime + 2000 > System.currentTimeMillis()) {
                 super.onBackPressed();
@@ -54,13 +51,12 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide(); // Removes top bar
-        //setContentView(R.layout.activity_main);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         homeFragment = new HomeFragment();
-        shoppingCartFragmentFragment = new ShoppingCartFragmentFragment();
+        shoppingCartFragment = new ShoppingCartFragment();
         profileFragment = new ProfileFragment();
 
         SetFragments();
@@ -80,29 +76,26 @@ public class MainActivity extends AppCompatActivity  {
                    // navigationBar(new ProfileFragment());
                     navigationBar("Profile");
                     break;
-
             }
             return true;
         });
-
     }
 
     private void SetFragments()
     {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame_layout, homeFragment);
-        fragmentTransaction.add(R.id.frame_layout,shoppingCartFragmentFragment);
+        fragmentTransaction.add(R.id.frame_layout,shoppingCartFragment);
         fragmentTransaction.add(R.id.frame_layout, profileFragment);
         fragmentTransaction.detach(profileFragment);
-        fragmentTransaction.detach(shoppingCartFragmentFragment);
+        fragmentTransaction.detach(shoppingCartFragment);
         fragmentTransaction.commit();
-
     }
 
     public void navigationBar(String fragment)
     {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                //.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);;
+                //.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
         if(Objects.equals(fragment, "Home"))
         {
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
@@ -110,10 +103,8 @@ public class MainActivity extends AppCompatActivity  {
         }
         else if(Objects.equals(fragment,"ShoppingCart"))
         {
-            String info = getSupportFragmentManager().findFragmentById(R.id.frame_layout).toString();
-
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-            fragmentTransaction.attach(shoppingCartFragmentFragment);
+            fragmentTransaction.attach(shoppingCartFragment);
         }
         else if(Objects.equals(fragment, "Profile"))
         {
@@ -123,26 +114,28 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.commit();
     }
 
-    public void BookInfo(Book book)
+    public void ArticleInfo(Product article,String type)
     {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-        fragmentTransaction.add(R.id.frame_layout,new BookInfoFragment(book));
-        fragmentTransaction.commit();
-    }
-
-    public void ComicInfo(Comic comic)
-    {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-        fragmentTransaction.add(R.id.frame_layout,new ComicInfoFragment(comic));
-        fragmentTransaction.commit();
+        if(type.equals("book"))
+        {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+            fragmentTransaction.add(R.id.frame_layout,new BookInfoFragment(article));
+            fragmentTransaction.commit();
+        }
+        else if(type.equals("comic"))
+        {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+            fragmentTransaction.add(R.id.frame_layout,new ComicInfoFragment(article));
+            fragmentTransaction.commit();
+        }
     }
 
     public void DestroyArticleInfo()
@@ -153,8 +146,6 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.attach(homeFragment);
         fragmentTransaction.commit();
     }
-
-
 
   /*  private void ReadFromDatabase()
     {

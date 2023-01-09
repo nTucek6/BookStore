@@ -77,5 +77,11 @@
 
     <!-- ========== top navigation home ==========  -->
 
+    <!-- ========== ShoppingCart ==========  -->
+ <string name="QuantityToBuy">Količina za kupiti:</string>
+  <string name="Items">Proizvodi</string>
+    <string name="ToPay">Plativa količina</string>
+
+    <!-- ========== ShoppingCart ==========  -->
 
 </resources>

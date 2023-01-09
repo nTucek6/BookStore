@@ -1,8 +1,6 @@
 package com.example.bookstore.Classes;
 
-
-public class Comic {
-
+public class Product {
     private String key;
     private String name;
     private String author;
@@ -11,7 +9,7 @@ public class Comic {
     private String imageURL;
     private String published;
 
-    public Comic(){}
+    public Product(){}
 
     public String getKey() {
         return key;
@@ -37,6 +35,14 @@ public class Comic {
         this.author = author;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getGenres() {
         return genres;
     }
@@ -59,13 +65,5 @@ public class Comic {
 
     public void setPublished(String published) {
         this.published = published;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

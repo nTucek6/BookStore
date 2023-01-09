@@ -1,27 +1,20 @@
 package com.example.bookstore.Fragments.HomeFragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.bookstore.Adapters.BookAdapter;
-import com.example.bookstore.Adapters.ComicAdapter;
-import com.example.bookstore.Classes.Book;
-import com.example.bookstore.Classes.Comic;
-import com.example.bookstore.Fragments.HomeFragment;
+import com.example.bookstore.Adapters.BookComicAdapter;
+import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Interfaces.SelectArticleListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
@@ -46,10 +39,10 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
 
     private View rootView;
 
-    private List<Book> listBooks = new ArrayList<>();
-    private List<Comic> listComics = new ArrayList<>();
-    private BookAdapter bookAdapter;
-    private ComicAdapter comicAdapter;
+    private List<Product> listBooks = new ArrayList<>();
+    private List<Product> listComics = new ArrayList<>();
+    private BookComicAdapter bookAdapter;
+    private BookComicAdapter comicAdapter;
 
 
    /* @Override
@@ -69,8 +62,7 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_home, container, false);
+
         rootView =  inflater.inflate(R.layout.fragment_featured, container, false);
 
         bookRecyclerView = rootView.findViewById(R.id.BookRecyclerViewLatest);
@@ -81,7 +73,6 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
         {
             ReadFromDatabase();
         }
-
         return rootView;
     }
 
@@ -99,8 +90,8 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
                 {
                     for(DataSnapshot ds : task.getResult().getChildren())
                     {
-                        Book book = new Book();
-                        book = ds.getValue(Book.class);
+                        Product book = new Product();
+                        book = ds.getValue(Product.class);
                         book.setKey(ds.getKey());
                         listBooks.add(book);
                     }
@@ -108,7 +99,6 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
                     {
                         SetUpBookRecycleView();
                     }
-
                 }
             }
         });
@@ -122,11 +112,10 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
                 }
                 else
                 {
-                    Comic comic = new Comic();
                     for(DataSnapshot ds : task.getResult().getChildren())
                     {
-
-                        comic = ds.getValue(Comic.class);
+                        Product comic = new Product();
+                        comic = ds.getValue(Product.class);
                         comic.setKey(ds.getKey());
                         listComics.add(comic);
                     }
@@ -141,21 +130,15 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
     }
 
     @Override
-    public void onBookClicked(Book book) {
-        ((MainActivity) getActivity()).BookInfo(book);
-    }
-
-    @Override
-    public void onComicClicked(Comic comic) {
-        ((MainActivity) getActivity()).ComicInfo(comic);
+    public void onArticleClicked(Product book,String type) {
+        ((MainActivity) getActivity()).ArticleInfo(book,type);
     }
 
     private void SetUpBookRecycleView()
     {
-        //Log.e("WhatActivity",getActivity().toString());
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         bookRecyclerView.setLayoutManager(layoutManager);
-        bookAdapter = new BookAdapter(listBooks, getActivity(), FeaturedFragment.this);
+        bookAdapter = new BookComicAdapter(listBooks, getActivity(), FeaturedFragment.this,"book");
         bookRecyclerView.setAdapter(bookAdapter);
     }
 
@@ -163,7 +146,7 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
     {
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         comicRecyclerView.setLayoutManager(layoutManager);
-        comicAdapter = new ComicAdapter(listComics, getActivity(),FeaturedFragment.this);
+        comicAdapter = new BookComicAdapter(listComics, getActivity(),FeaturedFragment.this,"comic");
         comicRecyclerView.setAdapter(comicAdapter);
     }
 }

@@ -75,5 +75,12 @@
 
     <!-- ========== top navigation home ==========  -->
 
+    <!-- ========== ShoppingCart ==========  -->
+    <string name="QuantityToBuy">Quantity to buy:</string>
+    <string name="Items">Items</string>
+    <string name="ToPay">Amount Payable</string>
+
+    <!-- ========== ShoppingCart ==========  -->
+
 
 </resources>

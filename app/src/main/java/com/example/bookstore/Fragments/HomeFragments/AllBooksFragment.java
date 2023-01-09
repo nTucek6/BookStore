@@ -13,9 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.bookstore.Adapters.BookAdapter;
-import com.example.bookstore.Classes.Book;
-import com.example.bookstore.Classes.Comic;
+import com.example.bookstore.Adapters.BookComicAdapter;
+import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Interfaces.SelectArticleListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
@@ -40,8 +39,8 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
 
     private DatabaseReference booksTable;
 
-    private List<Book> listBooks = new ArrayList<>();
-    private BookAdapter bookAdapter;
+    private List<Product> listBooks = new ArrayList<>();
+    private BookComicAdapter bookAdapter;
     private LinearLayoutManager layoutManager;
 
 
@@ -82,9 +81,9 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
 
                     Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Book book = new Book();
+                    Product book = new Product();
                     for (DataSnapshot ds : task.getResult().getChildren()) {
-                        book = ds.getValue(Book.class);
+                        book = ds.getValue(Product.class);
                         book.setKey(ds.getKey());
                         listBooks.add(book);
                     }
@@ -105,17 +104,13 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
         layoutManager = new GridLayoutManager(getActivity(), 3);
 
         recyclerViewBook.setLayoutManager(layoutManager);
-        bookAdapter = new BookAdapter(listBooks, getActivity(), AllBooksFragment.this);
+        bookAdapter = new BookComicAdapter(listBooks, getActivity(), AllBooksFragment.this,"book");
         recyclerViewBook.setAdapter(bookAdapter);
     }
 
     @Override
-    public void onBookClicked(Book book) {
-        ((MainActivity) getActivity()).BookInfo(book);
+    public void onArticleClicked(Product book,String type) {
+        ((MainActivity) getActivity()).ArticleInfo(book,"book");
     }
 
-    @Override
-    public void onComicClicked(Comic comic) {
-
-    }
 }
