@@ -55,6 +55,7 @@ public class PaymentTypeFragment extends Fragment {
         this.productList = productList;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,9 +106,6 @@ public class PaymentTypeFragment extends Fragment {
 
         return rootView;
     }
-
-
-
 
     private void FinishOrder()
     {

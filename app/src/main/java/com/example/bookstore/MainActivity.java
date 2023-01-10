@@ -13,6 +13,7 @@ import com.example.bookstore.Classes.ShoppingCart;
 import com.example.bookstore.Fragments.HomeFragment;
 import com.example.bookstore.Fragments.ProductInfoFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
+import com.example.bookstore.Fragments.ProfileFragments.OrdersFragment;
 import com.example.bookstore.Fragments.ShoppingCartFragment;
 import com.example.bookstore.databinding.ActivityMainBinding;
 
@@ -156,6 +157,17 @@ public class MainActivity extends AppCompatActivity  {
                 .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
         fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.add(R.id.frame_layout,new PaymentTypeFragment(productsList,shoppingCartList,productList));
+        fragmentTransaction.commit();
+    }
+
+    public void OrdersFragment()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+        fragmentTransaction.add(R.id.frame_layout,new OrdersFragment());
         fragmentTransaction.commit();
     }
 

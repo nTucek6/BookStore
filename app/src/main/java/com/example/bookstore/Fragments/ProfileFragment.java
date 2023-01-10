@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.bookstore.Classes.User;
 import com.example.bookstore.LoginActivity;
+import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,7 +38,7 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference userTable;
 
     private TextView tvName,tvSurname;
-    private Button logoutBtn;
+    private Button logoutBtn,btnOrders;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,12 +53,22 @@ public class ProfileFragment extends Fragment {
         tvName = rootView.findViewById(R.id.tvName);
         tvSurname = rootView.findViewById(R.id.tvSurname);
         logoutBtn = rootView.findViewById(R.id.logoutBtn);
+        btnOrders = rootView.findViewById(R.id.btnOrders);
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         userTable = FirebaseDatabase.getInstance().getReference("users");
         String key = mUser.getUid();
         ReadUserFromDatabase(key);
+
+        btnOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).OrdersFragment();
+            }
+        });
+
+
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Order {
 
+    private String orderKey;
     private String userUID;
     private String orderDate;
     private float totalPrice;
@@ -61,5 +62,13 @@ public class Order {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getOrderKey() {
+        return orderKey;
+    }
+
+    public void setOrderKey(String orderKey) {
+        this.orderKey = orderKey;
     }
 }
