@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.BookInfoFragment">
+    >
 
     <FrameLayout
-        android:id="@+id/ComicInfoNavigation"
+        android:id="@+id/ProductInfoNavigation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -27,15 +27,15 @@
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/comicInfo"
+        android:id="@+id/productInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ComicInfoNavigation"
+        app:layout_constraintTop_toBottomOf="@+id/ProductInfoNavigation"
         android:layout_marginTop="10dp"
         >
 
         <ImageView
-            android:id="@+id/ivComicImage"
+            android:id="@+id/ivProductImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_baseline_library_books_24"
@@ -47,18 +47,18 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvComicName"
+                android:id="@+id/tvProductName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/tvComicAuthor"
+                android:id="@+id/tvProductAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
             <TextView
-                android:id="@+id/tvComicGenre"
+                android:id="@+id/tvProductGenre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -70,10 +70,10 @@
 
 
     <TextView
-        android:id="@+id/tvComicDescription"
+        android:id="@+id/tvProductDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/comicInfo"
+        app:layout_constraintTop_toBottomOf="@+id/productInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="10dp"
@@ -98,7 +98,7 @@
                 android:text="@string/tvQuantity"/>
 
             <TextView
-                android:id="@+id/tvComicQuantity"
+                android:id="@+id/tvProductQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
@@ -110,7 +110,7 @@
                 android:text="@string/tvPrice"/>
 
             <TextView
-                android:id="@+id/tvComicPrice"
+                android:id="@+id/tvProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
@@ -156,7 +156,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnAddToCartComic"
+            android:id="@+id/btnAddToCartProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"

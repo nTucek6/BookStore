@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Classes.Products;
 import com.example.bookstore.Classes.ShoppingCart;
 import com.example.bookstore.Interfaces.DeleteArticleListener;
+import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,12 +62,17 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
     private ProductAdapter productAdapter;
     private LinearLayout priceDetailsLayout;
     private TextView tvItemsCount,tvToPay;
+    private Button btnContinue;
 
     @Override
     public void onResume()
     {
         super.onResume();
-        productAdapter.notifyDataSetChanged();
+        if(productAdapter != null)
+        {
+            productAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -88,6 +95,7 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
         priceDetailsLayout = rootView.findViewById(R.id.priceDetailsLayout);
         tvItemsCount = rootView.findViewById(R.id.tvItemsCount);
         tvToPay = rootView.findViewById(R.id.tvToPay);
+        btnContinue = rootView.findViewById(R.id.btnContinue);
         priceDetailsLayout.setVisibility(View.INVISIBLE);
 
         if(shoppingCartList.size() > 0)
@@ -96,6 +104,13 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
             SetUpInfo();
             priceDetailsLayout.setVisibility(View.VISIBLE);
         }
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).ProceedToPayment(listsProducts,shoppingCartList,listsProduct); //listsProducts
+            }
+        });
 
         return rootView;
     }
@@ -206,13 +221,20 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Query query = shoppingCartTable.orderByChild("productId").equalTo(product.getKey());
+                        //Query query = shoppingCartTable.orderByChild("productId").equalTo(product.getKey());
+                        Query query = shoppingCartTable.orderByChild("userUID").equalTo(userUID);
                         query.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot data: snapshot.getChildren()) {
-                                    shoppingCartTable.child(data.getKey()).removeValue();
 
+                                    ShoppingCart cart = new ShoppingCart();
+                                    cart = data.getValue(ShoppingCart.class);
+
+                                    if(cart.getUserUID().equals(userUID) && product.getKey().equals(cart.getProductId()))
+                                    {
+                                        shoppingCartTable.child(data.getKey()).removeValue();
+                                    }
                                 }
 
                                 listsProduct.remove(position);
@@ -255,8 +277,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 {
                     price+= product.getPrice()*item.getQuantityToBuy();
                 }
-
-
 
             }
 

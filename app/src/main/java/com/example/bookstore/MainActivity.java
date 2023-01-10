@@ -8,18 +8,20 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.bookstore.Classes.Product;
-import com.example.bookstore.Fragments.BookInfoFragment;
-import com.example.bookstore.Fragments.ComicInfoFragment;
+import com.example.bookstore.Classes.Products;
+import com.example.bookstore.Classes.ShoppingCart;
 import com.example.bookstore.Fragments.HomeFragment;
+import com.example.bookstore.Fragments.ProductInfoFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
 import com.example.bookstore.Fragments.ShoppingCartFragment;
 import com.example.bookstore.databinding.ActivityMainBinding;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity  {
 
-    ActivityMainBinding binding;
+    public ActivityMainBinding binding;
 
     private long pressedTime;
 
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity  {
                     .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-            fragmentTransaction.add(R.id.frame_layout,new BookInfoFragment(article));
+            fragmentTransaction.add(R.id.frame_layout,new ProductInfoFragment(article,type));
             fragmentTransaction.commit();
         }
         else if(type.equals("comic"))
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity  {
                     .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-            fragmentTransaction.add(R.id.frame_layout,new ComicInfoFragment(article));
+            fragmentTransaction.add(R.id.frame_layout,new ProductInfoFragment(article,type));
             fragmentTransaction.commit();
         }
     }
@@ -146,6 +148,27 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.attach(homeFragment);
         fragmentTransaction.commit();
     }
+
+    public void ProceedToPayment(List<Products> productsList, List<ShoppingCart> shoppingCartList, List<Product> productList)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+        fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+        fragmentTransaction.add(R.id.frame_layout,new PaymentTypeFragment(productsList,shoppingCartList,productList));
+        fragmentTransaction.commit();
+    }
+
+    public void DestroyPaymentFragmentInfo()
+    {
+        getSupportFragmentManager().popBackStack();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+        fragmentTransaction.attach(homeFragment);
+        fragmentTransaction.commit();
+    }
+
+
 
   /*  private void ReadFromDatabase()
     {

@@ -78,9 +78,11 @@
     <!-- ========== top navigation home ==========  -->
 
     <!-- ========== ShoppingCart ==========  -->
- <string name="QuantityToBuy">Količina za kupiti:</string>
-  <string name="Items">Proizvodi</string>
+    <string name="QuantityToBuy">Količina za kupiti:</string>
+    <string name="Items">Proizvodi</string>
     <string name="ToPay">Plativa količina</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- ========== ShoppingCart ==========  -->
 
