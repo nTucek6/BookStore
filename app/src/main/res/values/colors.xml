@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="activityBackground">#02010A</color>
+
+
+
     <color name="purple_200">#aa00ff</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -17,6 +22,18 @@
     <color name="red_shade">#ff0202</color>
 
     <color name="baby_blue">#89CFF0</color>
+
+    <color name="cardViewColor">#212027</color>
+
+    <color name="btnColor">#04052E</color>
+
+    <color name="btnLogin">#BBD686</color>
+
+    <color name="textColor">#EEF1BD</color>
+
+    <color name="dividerColor">#140152</color>
+
+    <color name="LogoutButton">#8B0000</color>
 
 
 </resources>

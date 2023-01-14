@@ -57,6 +57,8 @@
     <!-- ========== Profile fragment ==========  -->
     <string name="LogoutDialog">Logout?</string>
     <string name="btnLogout">Logout</string>
+    <string name="btnOrders">Orders</string>
+    <string name="btnProfile">Profile</string>
     <!-- ========== Profile fragment ==========  -->
 
     <!-- ========== BookInfo fragment ==========  -->
@@ -79,7 +81,10 @@
     <string name="QuantityToBuy">Quantity to buy:</string>
     <string name="Items">Items</string>
     <string name="ToPay">Amount Payable</string>
-
+    <string name="CartEmpty">Cart is empty.</string>
+    <string name="btnContinue">Continue</string>
+    <string name="tvItems">Items:</string>
+    <string name="tvAmountPayable">Amount Payable:</string>
     <!-- ========== ShoppingCart ==========  -->
 
 

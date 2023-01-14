@@ -58,6 +58,8 @@
     <!-- ========== Profile fragment ==========  -->
     <string name="LogoutDialog">Odjava?</string>
     <string name="btnLogout">Odjava</string>
+    <string name="btnOrders">Narudžbe</string>
+    <string name="btnProfile">Profil</string>
 
     <!-- ========== Profile fragment ==========  -->
 
@@ -81,9 +83,12 @@
     <string name="QuantityToBuy">Količina za kupiti:</string>
     <string name="Items">Proizvodi</string>
     <string name="ToPay">Plativa količina</string>
+    <string name="CartEmpty">Košarica je prazna.</string>
+    <string name="btnContinue">Nastavite</string>
+    <string name="tvItems">Proizvodi:</string>
+    <string name="tvAmountPayable">Plativa količina:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- ========== ShoppingCart ==========  -->
 
 </resources>

@@ -34,7 +34,8 @@
             <RadioButton android:id="@+id/radio_onDelivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cash on delivery" />
+                android:text="Cash on delivery"
+                android:textColor="@color/textColor"/>
         </RadioGroup>
 
         <Button
@@ -42,7 +43,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Place order"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:backgroundTint="@color/btnColor"
+            />
 
     </LinearLayout>
 

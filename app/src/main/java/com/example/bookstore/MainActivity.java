@@ -1,26 +1,33 @@
 package com.example.bookstore;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Classes.Products;
 import com.example.bookstore.Classes.ShoppingCart;
 import com.example.bookstore.Fragments.HomeFragment;
+import com.example.bookstore.Fragments.HomeFragments.SearchFragment;
 import com.example.bookstore.Fragments.ProductInfoFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
 import com.example.bookstore.Fragments.ProfileFragments.OrdersFragment;
+import com.example.bookstore.Fragments.ProfileFragments.UserFragment;
 import com.example.bookstore.Fragments.ShoppingCartFragment;
 import com.example.bookstore.databinding.ActivityMainBinding;
 
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
 
@@ -30,11 +37,26 @@ public class MainActivity extends AppCompatActivity  {
     private ShoppingCartFragment shoppingCartFragment;
     private ProfileFragment profileFragment;
 
-    @Override
-    public void onBackPressed()
+
+   /* @Override
+    public void onPause()
     {
-        if(getSupportFragmentManager().findFragmentById(R.id.frame_layout) == homeFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == profileFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == shoppingCartFragment)
-        {
+        super.onPause();
+        startActivity(new Intent(MainActivity.this,MainActivity.class));
+        this.finish();
+    } */
+
+    public void onConfigurationChanged (Configuration newConfig) {
+
+        super.onConfigurationChanged(newConfig);
+        startActivity(new Intent(MainActivity.this,MainActivity.class));
+        this.finish();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().findFragmentById(R.id.frame_layout) == homeFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == profileFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == shoppingCartFragment) {
             if (pressedTime + 2000 > System.currentTimeMillis()) {
                 super.onBackPressed();
                 finish();
@@ -42,13 +64,10 @@ public class MainActivity extends AppCompatActivity  {
                 Toast.makeText(getBaseContext(), getString(R.string.ExitDialog), Toast.LENGTH_SHORT).show();
             }
             pressedTime = System.currentTimeMillis();
-        }
-        else
-        {
+        } else {
             getSupportFragmentManager().popBackStack();
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +85,14 @@ public class MainActivity extends AppCompatActivity  {
 
         binding.NavigationBar.setOnItemSelectedListener(item ->
         {
-            switch(item.getItemId())
-            {
+            switch (item.getItemId()) {
                 case R.id.home:
-                   // navigationBar(new HomeFragment());
                     navigationBar("Home");
                     break;
                 case R.id.shoppingCart:
-                    navigationBar("ShoppingCart" );
+                    navigationBar("ShoppingCart");
                     break;
                 case R.id.user:
-                   // navigationBar(new ProfileFragment());
                     navigationBar("Profile");
                     break;
             }
@@ -84,70 +100,66 @@ public class MainActivity extends AppCompatActivity  {
         });
     }
 
-    private void SetFragments()
-    {
+    private void SetFragments() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame_layout, homeFragment);
-        fragmentTransaction.add(R.id.frame_layout,shoppingCartFragment);
+        fragmentTransaction.add(R.id.frame_layout, shoppingCartFragment);
         fragmentTransaction.add(R.id.frame_layout, profileFragment);
         fragmentTransaction.detach(profileFragment);
         fragmentTransaction.detach(shoppingCartFragment);
         fragmentTransaction.commit();
     }
 
-    public void navigationBar(String fragment)
-    {
+    public void navigationBar(String fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                //.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
-        if(Objects.equals(fragment, "Home"))
-        {
+        //.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+        if (Objects.equals(fragment, "Home")) {
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.attach(homeFragment);
-        }
-        else if(Objects.equals(fragment,"ShoppingCart"))
-        {
+        } else if (Objects.equals(fragment, "ShoppingCart")) {
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.attach(shoppingCartFragment);
-        }
-        else if(Objects.equals(fragment, "Profile"))
-        {
+        } else if (Objects.equals(fragment, "Profile")) {
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.attach(profileFragment);
         }
         fragmentTransaction.commit();
     }
 
-    public void ArticleInfo(Product article,String type)
-    {
-        if(type.equals("book"))
-        {
+    public void ArticleInfo(Product article, String type) {
+       // if (type.equals("book")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-            fragmentTransaction.add(R.id.frame_layout,new ProductInfoFragment(article,type));
+            fragmentTransaction.add(R.id.frame_layout, new ProductInfoFragment(article, type));
             fragmentTransaction.commit();
-        }
-        else if(type.equals("comic"))
-        {
+      //  }
+        /*else if (type.equals("comic")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-            fragmentTransaction.add(R.id.frame_layout,new ProductInfoFragment(article,type));
+            fragmentTransaction.add(R.id.frame_layout, new ProductInfoFragment(article, type));
             fragmentTransaction.commit();
-        }
+        } */
     }
+
+    public void PopBackStack()
+    {
+        getSupportFragmentManager().popBackStack();
+    }
+
 
     public void DestroyArticleInfo()
     {
         getSupportFragmentManager().popBackStack();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.attach(homeFragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit(); */
     }
 
     public void ProceedToPayment(List<Products> productsList, List<ShoppingCart> shoppingCartList, List<Product> productList)
@@ -171,14 +183,38 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.commit();
     }
 
+    public void ProfileFragment()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+        fragmentTransaction.add(R.id.frame_layout,new UserFragment());
+        fragmentTransaction.commit();
+    }
+
+
     public void DestroyPaymentFragmentInfo()
     {
-        getSupportFragmentManager().popBackStack();
+        //getSupportFragmentManager().popBackStack();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.attach(homeFragment);
         fragmentTransaction.commit();
     }
+
+    public void SearchFragment()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
+        fragmentTransaction.add(R.id.frame_layout,new SearchFragment());
+        fragmentTransaction.commit();
+    }
+
 
 
 

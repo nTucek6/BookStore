@@ -9,11 +9,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.bookstore.Adapters.ViewPagerHomeAdapter;
 import com.example.bookstore.Fragments.HomeFragments.AllBooksFragment;
 import com.example.bookstore.Fragments.HomeFragments.AllComicsFragment;
 import com.example.bookstore.Fragments.HomeFragments.FeaturedFragment;
+import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -25,6 +27,7 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
     private ViewPager2 viewPager2;
     private ViewPagerHomeAdapter viewPagerHomeAdapter;
     private TabLayout tabLayout;
+    private ImageView ivSearch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
         rootView =  inflater.inflate(R.layout.fragment_home, container, false);
 
         viewPager2 = rootView.findViewById(R.id.viewPagerHome);
+        ivSearch = rootView.findViewById(R.id.ivSearch);
         viewPager2.setUserInputEnabled(false);
         viewPagerHomeAdapter = new ViewPagerHomeAdapter(getActivity());
 
@@ -60,13 +64,18 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
                }
         ).attach();
 
-
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
+            }
+        });
 
+        ivSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).SearchFragment();
             }
         });
 

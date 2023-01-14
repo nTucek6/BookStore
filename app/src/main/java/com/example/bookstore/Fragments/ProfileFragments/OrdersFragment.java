@@ -11,12 +11,15 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.bookstore.Adapters.OrdersAdapter;
 import com.example.bookstore.Adapters.ProductAdapter;
 import com.example.bookstore.Classes.Order;
 import com.example.bookstore.Fragments.ShoppingCartFragment;
+import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +42,7 @@ public class OrdersFragment extends Fragment {
     private RecyclerView ordersRecyclerView;
     private LinearLayoutManager layoutManager;
     private OrdersAdapter ordersAdapter;
+    private ImageView ivBack;
 
     private List<Order> orderList = new ArrayList<>();
 
@@ -49,7 +53,6 @@ public class OrdersFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ordersTable = FirebaseDatabase.getInstance().getReference("orders");
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,8 +60,16 @@ public class OrdersFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_orders, container, false);
 
         ordersRecyclerView = rootView.findViewById(R.id.rvOrdersInfo);
+        ivBack = rootView.findViewById(R.id.ivBack);
 
         GetUserOrders();
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).PopBackStack();
+            }
+        });
 
         return rootView;
     }

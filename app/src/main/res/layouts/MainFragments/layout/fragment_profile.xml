@@ -25,33 +25,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/ProfileNavigation"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         >
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btnUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:text="" />
-            <TextView
-                android:id="@+id/tvSurname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-        </LinearLayout>
+            android:text="@string/btnProfile"
+            android:backgroundTint="@color/btnColor"
+            />
 
        <Button
            android:id="@+id/btnOrders"
-           android:layout_width="wrap_content"
+           android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="Orders"/>
-
+           android:text="@string/btnOrders"
+           android:backgroundTint="@color/btnColor"
+           android:layout_marginTop="5dp"
+           />
 
     </LinearLayout>
 
@@ -66,7 +60,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@color/LightCoral"
+        android:background="@color/LogoutButton"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,7 +55,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
     private List<ShoppingCart> shoppingCartList = new ArrayList<>();
     private List<Product> listsProduct = new ArrayList<>();
     private List<Products> listsProducts = new ArrayList<>();
-   // private List<Products> listsProductsPrice = new ArrayList<>();
 
     private RecyclerView productRecyclerView;
     private LinearLayoutManager layoutManager;
@@ -63,6 +62,7 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
     private LinearLayout priceDetailsLayout;
     private TextView tvItemsCount,tvToPay;
     private Button btnContinue;
+    private LinearLayout llCartEmpty;
 
     @Override
     public void onResume()
@@ -72,7 +72,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
         {
             productAdapter.notifyDataSetChanged();
         }
-
     }
 
     @Override
@@ -96,6 +95,8 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
         tvItemsCount = rootView.findViewById(R.id.tvItemsCount);
         tvToPay = rootView.findViewById(R.id.tvToPay);
         btnContinue = rootView.findViewById(R.id.btnContinue);
+        llCartEmpty = rootView.findViewById(R.id.llCartEmpty);
+        llCartEmpty.setVisibility(View.INVISIBLE);
         priceDetailsLayout.setVisibility(View.INVISIBLE);
 
         if(shoppingCartList.size() > 0)
@@ -103,6 +104,10 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
             SetUpRecyclerView();
             SetUpInfo();
             priceDetailsLayout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            llCartEmpty.setVisibility(View.VISIBLE);
         }
 
         btnContinue.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +220,7 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
     @Override
     public void onArticleClicked(Product product, int position) {
 
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(),R.style.AlertDialogTheme)
                 .setMessage("Are you sure?")
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
@@ -236,30 +241,28 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                                         shoppingCartTable.child(data.getKey()).removeValue();
                                     }
                                 }
-
                                 listsProduct.remove(position);
                                 RemoveFromCartAndProducts(product.getKey());
                                 SetUpRecyclerView();
                                 if(listsProduct.size() == 0)
                                 {
                                     priceDetailsLayout.setVisibility(View.INVISIBLE);
+                                    llCartEmpty.setVisibility(View.VISIBLE);
                                 }
                                 else
                                 {
                                     SetUpInfo();
                                 }
-
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-
+                                Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 })
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
-
     }
 
     private void SetUpInfo()

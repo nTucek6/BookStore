@@ -45,7 +45,7 @@ public class ProductInfoFragment extends Fragment {
     private Button btnMinus,btnPlus,btnAddToCartProduct;
 
     private DatabaseReference productsTable,shoppingCartTable;
-    private Products productsComic;
+    private Products productsArticle;
     private String Type;
 
     private int numberCopies = 1;
@@ -62,6 +62,8 @@ public class ProductInfoFragment extends Fragment {
 
         shoppingCartTable = FirebaseDatabase.getInstance().getReference("shoppingCart");
 
+        if(!Type.equals("all"))
+        {
         if(Type.equals("book"))
         {
             productsTable = FirebaseDatabase.getInstance().getReference("productsBooks");
@@ -70,7 +72,7 @@ public class ProductInfoFragment extends Fragment {
         {
             productsTable = FirebaseDatabase.getInstance().getReference("productsComics");
         }
-
+        }
 
 
     }
@@ -102,7 +104,15 @@ public class ProductInfoFragment extends Fragment {
         tvProductAuthor.setText(product.getAuthor());
         tvProductDescription.setText(product.getDescription());
 
-        ReadProductFromDatabase(product.getKey());
+        if(!Type.equals("all"))
+        {
+            ReadProductFromDatabase(product.getKey());
+        }
+        else
+        {
+            SearchProductFromDatabase(product.getKey());
+        }
+
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,10 +164,10 @@ public class ProductInfoFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-                    productsComic =data.getValue(Products.class);
+                    productsArticle =data.getValue(Products.class);
                 }
-                tvProductQuantity.setText(String.valueOf(productsComic.getQuantity()));
-                tvProductPrice.setText(String.valueOf(productsComic.getPrice()) + " " + productsComic.getCurrency());
+                tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
+                tvProductPrice.setText(String.valueOf(productsArticle.getPrice()) + " " + productsArticle.getCurrency());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -215,6 +225,57 @@ public class ProductInfoFragment extends Fragment {
         });
 
     }
+
+
+    private void SearchProductFromDatabase(String key) {
+        Query bookQuery = FirebaseDatabase.getInstance().getReference("productsBooks").orderByChild("productId").equalTo(key);
+        bookQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    productsArticle =data.getValue(Products.class);
+                }
+                if(productsArticle != null)
+                {
+                    Type = "book";
+                    tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
+                    tvProductPrice.setText(String.valueOf(productsArticle.getPrice()) + " " + productsArticle.getCurrency());
+                }
+                else
+                {
+                    GetComicSearch(key);
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void GetComicSearch(String key)
+    {
+        Query comicQuery = FirebaseDatabase.getInstance().getReference("productsComics").orderByChild("productId").equalTo(key);
+        comicQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    productsArticle =data.getValue(Products.class);
+                }
+
+                Type = "comic";
+                tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
+                tvProductPrice.setText(String.valueOf(productsArticle.getPrice()) + " " + productsArticle.getCurrency());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 
 

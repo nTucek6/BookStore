@@ -133,6 +133,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="-"
                 android:textAllCaps="false"
+                android:backgroundTint="@color/btnColor"
                 />
 
             <TextView
@@ -151,6 +152,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="+"
                 android:textAllCaps="false"
+                android:backgroundTint="@color/btnColor"
                 />
 
         </LinearLayout>
@@ -164,6 +166,7 @@
             android:layout_marginBottom="16dp"
             android:text="@string/btnCart"
             android:textAllCaps="false"
+            android:backgroundTint="@color/btnColor"
             />
     </LinearLayout>
 

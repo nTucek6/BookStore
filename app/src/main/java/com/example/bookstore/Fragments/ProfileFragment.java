@@ -35,36 +35,34 @@ public class ProfileFragment extends Fragment {
 
     private View rootView;
 
-    private DatabaseReference userTable;
-
-    private TextView tvName,tvSurname;
-    private Button logoutBtn,btnOrders;
+    private Button logoutBtn,btnOrders,btnUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        tvName = rootView.findViewById(R.id.tvName);
-        tvSurname = rootView.findViewById(R.id.tvSurname);
         logoutBtn = rootView.findViewById(R.id.logoutBtn);
         btnOrders = rootView.findViewById(R.id.btnOrders);
+        btnUser = rootView.findViewById(R.id.btnUser);
 
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        userTable = FirebaseDatabase.getInstance().getReference("users");
-        String key = mUser.getUid();
-        ReadUserFromDatabase(key);
 
         btnOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity)getActivity()).OrdersFragment();
+            }
+        });
+
+        btnUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).ProfileFragment();
             }
         });
 
@@ -91,21 +89,5 @@ public class ProfileFragment extends Fragment {
         return rootView;
     }
 
-    private void ReadUserFromDatabase(String key) {
-        Query query = userTable.orderByChild("userUID").equalTo(key);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    User user =data.getValue(User.class);
-                    tvName.setText(user.getName());
-                    tvSurname.setText(user.getSurname());
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(),"",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
 }

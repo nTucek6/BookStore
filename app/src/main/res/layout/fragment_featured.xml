@@ -41,9 +41,9 @@
                 />
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="10dp"
                 android:layout_marginTop="10dp"
-                app:dividerColor="@color/black"
+                app:dividerColor="@color/dividerColor"
                 />
 
         </LinearLayout>
@@ -71,9 +71,9 @@
                 />
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="10dp"
                 android:layout_marginTop="10dp"
-                app:dividerColor="@color/black"
+                app:dividerColor="@color/dividerColor"
                 />
 
         </LinearLayout>

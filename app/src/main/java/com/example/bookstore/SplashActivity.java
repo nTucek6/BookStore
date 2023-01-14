@@ -43,8 +43,6 @@ public class SplashActivity extends AppCompatActivity {
                 {
                     NoInternetFragment();
                 }
-
-
             }
         },1500);
 

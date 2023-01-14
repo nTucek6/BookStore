@@ -54,7 +54,7 @@
             android:id="@+id/tvItemsCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Items:"
+            android:text="@string/tvItems"
             />
 
         <com.google.android.material.divider.MaterialDivider
@@ -65,7 +65,7 @@
             android:id="@+id/tvToPay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Amount Payable"/>
+            android:text="@string/tvAmountPayable"/>
 
         <Button
             android:id="@+id/btnContinue"
@@ -73,10 +73,39 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="Continue"
+            android:backgroundTint="@color/btnColor"
+            android:text="@string/btnContinue"
             />
 
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llCartEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_baseline_remove_shopping_cart_24"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/CartEmpty"
+            android:gravity="center"/>
+
+
+    </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

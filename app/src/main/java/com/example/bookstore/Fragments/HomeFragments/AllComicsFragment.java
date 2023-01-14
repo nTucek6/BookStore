@@ -3,6 +3,7 @@ package com.example.bookstore.Fragments.HomeFragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.bookstore.Adapters.BookComicAdapter;
@@ -19,6 +22,7 @@ import com.example.bookstore.Interfaces.SelectArticleListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -34,14 +38,20 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
     private View rootView;
     private RecyclerView recyclerViewComic;
 
+    private LinearLayout LLLoading;
+    //private ProgressBar loadingPB;
+    private NestedScrollView nestedSV;
+
     private DatabaseReference comicsTable;
 
     private List<Product> listComics = new ArrayList<>();
     private BookComicAdapter comicsAdapter;
     private LinearLayoutManager layoutManager;
 
-    private int LoadMore = 10;
+    private int LoadMore = 15;
     private int page = 1;
+
+    private long articleCount;
 
    /* @Override
     public void onResume() {
@@ -54,6 +64,7 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         comicsTable = FirebaseDatabase.getInstance().getReference("comics");
+        GetArticleCount();
     }
 
     @Override
@@ -63,11 +74,28 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
         rootView = inflater.inflate(R.layout.fragment_all_comics, container, false);
 
         recyclerViewComic = rootView.findViewById(R.id.AllComicsRecyclerView);
+        //loadingPB = rootView.findViewById(R.id.idPBLoading);
+        nestedSV =  rootView.findViewById(R.id.idNestedSV);
+        LLLoading = rootView.findViewById(R.id.idLLLoading);
 
         if(listComics.size() == 0)
         {
             ReadFromDatabase();
         }
+
+        nestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                // on scroll change we are checking when users scroll as bottom.
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    page++;
+                    //loadingPB.setVisibility(View.VISIBLE);
+                    LLLoading.setVisibility(View.VISIBLE);
+                    ReadFromDatabase();
+
+                }
+            }
+        });
 
         return rootView;
     }
@@ -84,6 +112,11 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
                 }
                 else
                 {
+                    if(task.getResult().getChildrenCount() == articleCount)
+                    {
+                        //loadingPB.setVisibility(View.INVISIBLE);
+                        LLLoading.setVisibility(View.INVISIBLE);
+                    }
 
                     for(DataSnapshot ds : task.getResult().getChildren())
                     {
@@ -107,6 +140,22 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
         recyclerViewComic.setLayoutManager(layoutManager);
         comicsAdapter = new BookComicAdapter(listComics, getActivity(),AllComicsFragment.this,"comic");
         recyclerViewComic.setAdapter(comicsAdapter);
+    }
+
+    public void GetArticleCount()
+    {
+        comicsTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                articleCount = task.getResult().getChildrenCount();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
     }
 
 
