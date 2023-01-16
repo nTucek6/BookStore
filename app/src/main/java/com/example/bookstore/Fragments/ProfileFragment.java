@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(getActivity(),R.style.AlertDialogTheme)
                         .setMessage(getString(R.string.LogoutDialog))
                         .setCancelable(false)
                         .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {

@@ -36,7 +36,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
         String articles = "";
         int size = orderList.get(position).getArticle().size();
-        Log.e("count", String.valueOf(size));
         int count = 1;
         for (ProductOrderInfo product: orderList.get(position).getArticle())
         {
@@ -55,6 +54,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         holder.tvDate.setText(orderList.get(position).getOrderDate());
         holder.tvTotalPrice.setText(String.valueOf(orderList.get(position).getTotalPrice())+" " + orderList.get(position).getCurrency());
         holder.tvStatus.setText(orderList.get(position).getStatus());
+        holder.tvAddress.setText(orderList.get(position).getAddress());
+        holder.tvCity.setText(orderList.get(position).getCity());
     }
 
     @Override
@@ -63,7 +64,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvProductNames,tvOrderKey,tvDate,tvTotalPrice,tvStatus;
+        TextView tvProductNames,tvOrderKey,tvDate,tvTotalPrice,tvStatus,tvAddress,tvCity;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +74,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvAddress = itemView.findViewById(R.id.tvAddress);
+            tvCity = itemView.findViewById(R.id.tvCity);
         }
     }
 }

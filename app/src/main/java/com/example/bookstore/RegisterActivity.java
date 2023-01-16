@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText nameInput,surnameInput, emailInput,passwordInput,confirmPasswordInput;
+    private TextInputEditText nameInput,surnameInput,emailInput,passwordInput,confirmPasswordInput,addressInput,cityInput;
     private Button registerBtn,loginActivityBtn;
     private DatabaseReference userTable;
 
@@ -52,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
+        addressInput = findViewById(R.id.addressInput);
+        cityInput = findViewById(R.id.cityInput);
         registerBtn = findViewById(R.id.registerBtn);
         loginActivityBtn = findViewById(R.id.LoginAccountBtn);
 
@@ -83,6 +85,10 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         String password = passwordInput.getText().toString();
         String confirmPassword = confirmPasswordInput.getText().toString();
+        String name = nameInput.getText().toString();
+        String surname = surnameInput.getText().toString();
+        String address = addressInput.getText().toString();
+        String city = cityInput.getText().toString();
 
         if(!email.matches(emailPattern))
         {
@@ -100,10 +106,25 @@ public class RegisterActivity extends AppCompatActivity {
         {
             confirmPasswordInput.setError(getString(R.string.passwordMatchError));
         }
+        else if(name.isEmpty())
+        {
+            nameInput.setError(getString(R.string.emptyName));
+        }
+        else if(surname.isEmpty())
+        {
+            surnameInput.setError(getString(R.string.emptySurname));
+        }
+        else if(address.isEmpty())
+        {
+            addressInput.setError(getString(R.string.emptyAddress));
+        }
+        else if(city.isEmpty())
+        {
+            cityInput.setError(getString(R.string.emptyCity));
+        }
         else
         {
             toggleProgressBar(true);
-
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -111,9 +132,8 @@ public class RegisterActivity extends AppCompatActivity {
                    {
                        toggleProgressBar(false);
                        String userId = mAuth.getCurrentUser().getUid();
-                       String name = nameInput.getText().toString();
-                       String surname = surnameInput.getText().toString();
-                       AddUserToDatabase(new User(userId,name,surname));
+
+                       AddUserToDatabase(new User(userId,name,surname,address,city));
                        SendToMainActivity();
                        Toast.makeText(RegisterActivity.this,getString(R.string.registerComplited),Toast.LENGTH_SHORT).show();
                    }

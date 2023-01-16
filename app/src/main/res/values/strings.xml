@@ -42,6 +42,14 @@
     <string name="passwordMatchError">Lozinke nisu jednake!</string>
     <string name="nameInputhint">Ime</string>
     <string name="surnameInputhint">Prezime</string>
+    <string name="addressInputhint">Adresa</string>
+
+    <string name="emptyName">Unesite ime!</string>
+    <string name="emptySurname">Unesite prezime!</string>
+    <string name="emptyAddress">Unesite adresu!</string>
+    <string name="emptyCity">Unesite grad!</string>
+
+    <string name="cityInputhint">Grad</string>
 
     <string name="registerComplited">Registracija je uspješna!</string>
 
@@ -87,8 +95,16 @@
     <string name="btnContinue">Nastavite</string>
     <string name="tvItems">Proizvodi:</string>
     <string name="tvAmountPayable">Plativa količina:</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- ========== ShoppingCart ==========  -->
+
+
+    <!-- ========== Orders fragment ==========  -->
+    <string name="tvOrderKey">Ključ narudžbe:</string>
+    <string name="tvDate">Datum:</string>
+    <string name="tvTotalPrice">Ukupna cijena:</string>
+    <string name="tvAddress">Adresa:</string>
+    <string name="tvCity">Grad:</string>
+    <string name="tvStatus">Status:</string>
+    <!-- ========== Orders fragment ==========  -->
 
 </resources>

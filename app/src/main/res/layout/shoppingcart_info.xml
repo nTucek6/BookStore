@@ -53,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:text="Remove from cart"
                     android:backgroundTint="@color/btnColor"
+                    android:textColor="@color/btnTextColor"
                     />
 
             </LinearLayout>

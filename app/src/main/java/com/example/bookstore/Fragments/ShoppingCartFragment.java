@@ -40,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class ShoppingCartFragment extends Fragment implements DeleteArticleListener {
@@ -68,10 +69,17 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
     public void onResume()
     {
         super.onResume();
-        if(productAdapter != null)
+      if(productAdapter != null)
         {
             productAdapter.notifyDataSetChanged();
         }
+
+      /* if(productRecyclerView != null && shoppingCartList.size() > 0)
+        {
+            SetUpRecyclerView();
+            SetUpInfo();
+        }*/
+
     }
 
     @Override
@@ -116,7 +124,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 ((MainActivity) getActivity()).ProceedToPayment(listsProducts,shoppingCartList,listsProduct); //listsProducts
             }
         });
-
         return rootView;
     }
 
@@ -134,12 +141,14 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
 
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     ShoppingCart shoppingCart =data.getValue(ShoppingCart.class);
+
                     shoppingCartList.add(shoppingCart);
                 }
-
                 if(shoppingCartList.size() > 0)
                 {
-                    GetArticles();
+                   // GetArticles();
+                    GetBooksOrComics();
+                    GetProducts();
                 }
             }
             @Override
@@ -147,10 +156,9 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
-    private void GetArticles()
+  /*  private void GetArticles()
     {
         for (ShoppingCart item: shoppingCartList)
         {
@@ -165,12 +173,11 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 GetProducts(item.getProductId(),productsComicsTable);
             }
         }
-
     }
 
-    private void GetBooksOrComics(String bookKey, DatabaseReference reference)
+    private void GetBooksOrComics(String articleKey, DatabaseReference reference)
     {
-        Query query = reference.orderByKey().equalTo(bookKey);
+        Query query = reference.orderByKey().equalTo(articleKey);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -185,6 +192,7 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -207,7 +215,115 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
+    } */
+
+    private void GetBooksOrComics()
+    {
+        booksTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    for(DataSnapshot ds : task.getResult().getChildren())
+                    {
+                        Product book = new Product();
+                        book = ds.getValue(Product.class);
+                        book.setKey(ds.getKey());
+                        for (ShoppingCart cart: shoppingCartList)
+                        {
+                            if(cart.getProductId().equals(book.getKey()))
+                            {
+                                listsProduct.add(book);
+                            }
+                        }
+                    }
+
+
+                }
+            }
+        });
+
+        comicsTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    for(DataSnapshot ds : task.getResult().getChildren())
+                    {
+                        Product comic = new Product();
+                        comic = ds.getValue(Product.class);
+                        comic.setKey(ds.getKey());
+                        for (ShoppingCart cart: shoppingCartList)
+                        {
+                            if(cart.getProductId().equals(comic.getKey()))
+                            {
+                                listsProduct.add(comic);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
     }
+
+    public void GetProducts()
+    {
+        productsBookTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    for(DataSnapshot ds : task.getResult().getChildren())
+                    {
+                        Products book = new Products();
+                        book = ds.getValue(Products.class);
+                        for (ShoppingCart cart: shoppingCartList)
+                        {
+                            if(cart.getProductId().equals(book.getProductId()))
+                            {
+                                listsProducts.add(book);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        productsComicsTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    for(DataSnapshot ds : task.getResult().getChildren())
+                    {
+                        Products comic = new Products();
+                        comic = ds.getValue(Products.class);
+                        for (ShoppingCart cart: shoppingCartList)
+                        {
+                            if(cart.getProductId().equals(comic.getProductId()))
+                            {
+                                listsProducts.add(comic);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
     private void SetUpRecyclerView()
     {
@@ -280,7 +396,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 {
                     price+= product.getPrice()*item.getQuantityToBuy();
                 }
-
             }
 
         }

@@ -93,7 +93,7 @@ public class ProductInfoFragment extends Fragment {
         btnMinus = rootView.findViewById(R.id.btnMinus);
         btnPlus = rootView.findViewById(R.id.btnPlus);
         tvCopies = rootView.findViewById(R.id.tvCopies);
-        tvProductQuantity = rootView.findViewById(R.id.tvProductQuantity);
+        //tvProductQuantity = rootView.findViewById(R.id.tvProductQuantity);
         tvProductPrice = rootView.findViewById(R.id.tvProductPrice);
         btnAddToCartProduct = rootView.findViewById(R.id.btnAddToCartProduct);
 
@@ -166,7 +166,7 @@ public class ProductInfoFragment extends Fragment {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     productsArticle =data.getValue(Products.class);
                 }
-                tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
+               // tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
                 tvProductPrice.setText(String.valueOf(productsArticle.getPrice()) + " " + productsArticle.getCurrency());
             }
             @Override

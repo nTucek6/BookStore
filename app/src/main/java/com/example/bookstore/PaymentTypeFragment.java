@@ -19,6 +19,7 @@ import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Classes.ProductOrderInfo;
 import com.example.bookstore.Classes.Products;
 import com.example.bookstore.Classes.ShoppingCart;
+import com.example.bookstore.Classes.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,8 +47,10 @@ public class PaymentTypeFragment extends Fragment {
     private List<Product> productList;
 
     private DatabaseReference orderTable;
+    private DatabaseReference userTable;
     private DatabaseReference shoppingCartTable;
     private final String userUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private User user;
 
     public PaymentTypeFragment(List<Products> productsList,List<ShoppingCart> shoppingCartList,List<Product> productList) {
         this.productsList = productsList;
@@ -61,7 +64,8 @@ public class PaymentTypeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         orderTable = FirebaseDatabase.getInstance().getReference("orders");
         shoppingCartTable = FirebaseDatabase.getInstance().getReference("shoppingCart");
-
+        userTable = FirebaseDatabase.getInstance().getReference("users");
+        ReadUserFromDatabase(userUID);
     }
 
     @Override
@@ -107,6 +111,25 @@ public class PaymentTypeFragment extends Fragment {
         return rootView;
     }
 
+    private void ReadUserFromDatabase(String key) {
+        Query query = userTable.orderByChild("userUID").equalTo(key);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                     user =data.getValue(User.class);
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(),"",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
     private void FinishOrder()
     {
         SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
@@ -137,6 +160,8 @@ public class PaymentTypeFragment extends Fragment {
         order.setArticle(orderInfoList);
         order.setTotalPrice(GetPrice());
         order.setCurrency("EUR");
+        order.setAddress(user.getAddress());
+        order.setCity(user.getCity());
 
        // Toast.makeText(getActivity(), date, Toast.LENGTH_SHORT).show();
 

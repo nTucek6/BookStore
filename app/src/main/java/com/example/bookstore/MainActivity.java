@@ -135,16 +135,6 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
             fragmentTransaction.add(R.id.frame_layout, new ProductInfoFragment(article, type));
             fragmentTransaction.commit();
-      //  }
-        /*else if (type.equals("comic")) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
-            fragmentTransaction.add(R.id.frame_layout, new ProductInfoFragment(article, type));
-            fragmentTransaction.commit();
-        } */
     }
 
     public void PopBackStack()
@@ -167,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,R.anim.enter_left_to_right,R.anim.exit_left_to_right);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.detach(getSupportFragmentManager().findFragmentById(R.id.frame_layout));
         fragmentTransaction.add(R.id.frame_layout,new PaymentTypeFragment(productsList,shoppingCartList,productList));
         fragmentTransaction.commit();

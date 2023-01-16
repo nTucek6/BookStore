@@ -35,5 +35,7 @@
 
     <color name="LogoutButton">#8B0000</color>
 
+    <color name="btnTextColor">#FFFFFF</color>
+
 
 </resources>

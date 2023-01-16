@@ -9,6 +9,8 @@ public class Order {
     private String userUID;
     private String orderDate;
     private float totalPrice;
+    private String address;
+    private String city;
     private String currency;
     private List<ProductOrderInfo> article;
     private String status;
@@ -70,5 +72,21 @@ public class Order {
 
     public void setOrderKey(String orderKey) {
         this.orderKey = orderKey;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

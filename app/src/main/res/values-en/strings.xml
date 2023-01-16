@@ -42,6 +42,13 @@
     <string name="passwordMatchError">Password do not match!</string>
     <string name="nameInputhint">Name</string>
     <string name="surnameInputhint">Surname</string>
+    <string name="addressInputhint">Address</string>
+    <string name="cityInputhint">City</string>
+
+    <string name="emptyName">Enter name!</string>
+    <string name="emptySurname">Enter surname!</string>
+    <string name="emptyAddress">Enter address!</string>
+    <string name="emptyCity">Enter city!</string>
 
     <string name="registerComplited">Registration is successful!</string>
 
@@ -86,6 +93,15 @@
     <string name="tvItems">Items:</string>
     <string name="tvAmountPayable">Amount Payable:</string>
     <!-- ========== ShoppingCart ==========  -->
+
+    <!-- ========== Orders fragment ==========  -->
+    <string name="tvOrderKey">Order Key:</string>
+    <string name="tvDate">Date:</string>
+    <string name="tvTotalPrice">Total price:</string>
+    <string name="tvAddress">Address:</string>
+    <string name="tvCity">City:</string>
+    <string name="tvStatus">Status:</string>
+    <!-- ========== Orders fragment ==========  -->
 
 
 </resources>

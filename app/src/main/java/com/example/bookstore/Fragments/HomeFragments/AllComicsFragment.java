@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,17 @@ import com.example.bookstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 
@@ -41,6 +48,7 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
     private LinearLayout LLLoading;
     //private ProgressBar loadingPB;
     private NestedScrollView nestedSV;
+    private TabLayout tabLayoutFilter;
 
     private DatabaseReference comicsTable;
 
@@ -50,6 +58,8 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
 
     private int LoadMore = 15;
     private int page = 1;
+
+    private int sortTab = 0;
 
     private long articleCount;
 
@@ -77,6 +87,7 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
         //loadingPB = rootView.findViewById(R.id.idPBLoading);
         nestedSV =  rootView.findViewById(R.id.idNestedSV);
         LLLoading = rootView.findViewById(R.id.idLLLoading);
+        tabLayoutFilter = rootView.findViewById(R.id.tabLayoutFilter);
 
         if(listComics.size() == 0)
         {
@@ -94,6 +105,20 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
                     ReadFromDatabase();
 
                 }
+            }
+        });
+
+        tabLayoutFilter.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.i("tab",String.valueOf(tab.getPosition()));
+                SortArticle(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
 
@@ -125,8 +150,18 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
                         comic.setKey(ds.getKey());
                         listComics.add(comic);
                     }
+
                     if(listComics.size() > 0)
                     {
+                        if(sortTab == 0)
+                        {
+                            SortByPublished();
+                        }
+                        else if(sortTab == 1)
+                        {
+                            SortByName();
+                        }
+
                         SetUpComicRecycleView();
                     }
                 }
@@ -156,6 +191,49 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
             }
         });
 
+    }
+
+    private void SortArticle(int position)
+    {
+        if(position == 0)
+        {
+            sortTab = 0;
+            SortByPublished();
+            SetUpComicRecycleView();
+        }
+        else if(position == 1)
+        {
+            sortTab = 1;
+            SortByName();
+            SetUpComicRecycleView();
+        }
+    }
+
+    private void SortByName()
+    {
+        Collections.sort(listComics, new Comparator<Product>(){
+            public int compare(Product obj1, Product obj2) {
+                // ## Ascending order
+                return obj1.getName().compareToIgnoreCase(obj2.getName()); // To compare string values
+            }
+        });
+    }
+    private void SortByPublished()
+    {
+        Collections.sort(listComics, new Comparator<Product>() {
+            public int compare(Product obj1, Product obj2) {
+                // ## Descending order
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                try {
+                    Date date1 = format.parse(obj1.getPublished());
+                    Date date2 = format.parse(obj2.getPublished());
+                    return date2.compareTo(date1); // To compare date values
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        });
     }
 
 
