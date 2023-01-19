@@ -92,6 +92,8 @@
     <string name="btnContinue">Continue</string>
     <string name="tvItems">Items:</string>
     <string name="tvAmountPayable">Amount Payable:</string>
+    <string name="areyousure">Are you sure?</string>
+    <string name="clearCart">Clear cart</string>
     <!-- ========== ShoppingCart ==========  -->
 
     <!-- ========== Orders fragment ==========  -->

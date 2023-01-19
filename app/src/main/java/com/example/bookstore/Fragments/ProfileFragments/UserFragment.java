@@ -39,7 +39,8 @@ public class UserFragment extends Fragment {
     private FirebaseUser mUser;
     private DatabaseReference userTable;
 
-    TextInputEditText etName,etSurname,etEmail,etAddress,etCity;
+    TextInputEditText etName,etSurname,etAddress,etCity;
+    TextView tvEmail;
 
     public UserFragment() {
         // Required empty public constructor
@@ -64,7 +65,7 @@ public class UserFragment extends Fragment {
 
         etName = rootView.findViewById(R.id.etName);
         etSurname = rootView.findViewById(R.id.etSurname);
-        etEmail = rootView.findViewById(R.id.etEmail);
+        tvEmail = rootView.findViewById(R.id.tvEmail);
         etAddress = rootView.findViewById(R.id.etAddress);
         etCity = rootView.findViewById(R.id.etCity);
         btnUpdate = rootView.findViewById(R.id.btnUpdate);
@@ -87,7 +88,6 @@ public class UserFragment extends Fragment {
                 UpdateUserInfo();
             }
         });
-
         return rootView;
     }
 
@@ -100,7 +100,7 @@ public class UserFragment extends Fragment {
                     User user =data.getValue(User.class);
                     etName.setText(user.getName());
                     etSurname.setText(user.getSurname());
-                    etEmail.setText(mUser.getEmail());
+                    tvEmail.setText(mUser.getEmail());
                     etAddress.setText(user.getAddress());
                     etCity.setText(user.getCity());
 

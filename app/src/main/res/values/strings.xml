@@ -95,6 +95,8 @@
     <string name="btnContinue">Nastavite</string>
     <string name="tvItems">Proizvodi:</string>
     <string name="tvAmountPayable">Plativa količina:</string>
+    <string name="areyousure">Jeste li sigurni?</string>
+    <string name="clearCart">Očistite košaricu</string>
     <!-- ========== ShoppingCart ==========  -->
 
 

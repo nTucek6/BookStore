@@ -67,16 +67,37 @@
             android:layout_height="wrap_content"
             android:text="@string/tvAmountPayable"/>
 
-        <Button
-            android:id="@+id/btnContinue"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/btnColor"
-            android:textColor="@color/btnTextColor"
-            android:text="@string/btnContinue"
-            />
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/btnRemoveAllFromCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/btnColor"
+                android:textColor="@color/btnTextColor"
+                android:text="@string/clearCart"
+                android:layout_marginRight="3dp"
+                />
+
+            <Button
+                android:id="@+id/btnContinue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:backgroundTint="@color/btnColor"
+                android:textColor="@color/btnTextColor"
+                android:text="@string/btnContinue"
+                />
+
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

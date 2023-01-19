@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.bookstore.Adapters.BookComicAdapter;
 import com.example.bookstore.Classes.Product;
+import com.example.bookstore.Classes.ShoppingCart;
 import com.example.bookstore.Interfaces.SelectArticleListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
@@ -105,7 +106,6 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
         tabLayoutFilter.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.i("tab",String.valueOf(tab.getPosition()));
                 SortArticle(tab.getPosition());
             }
             @Override
@@ -119,7 +119,57 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
     }
 
     private void ReadFromDatabase() {
-        booksTable.limitToLast(page*LoadMore).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+        String orderBy = null;
+
+        if(sortTab == 0)
+        {
+            orderBy = "published";
+        }
+        else
+        {
+            orderBy = "name";
+        }
+
+        Query query = booksTable.orderByChild(orderBy).limitToFirst(page*LoadMore);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() == articleCount)
+                {
+                    // loadingPB.setVisibility(View.INVISIBLE);
+                    LLLoading.setVisibility(View.INVISIBLE);
+                }
+                listBooks = new ArrayList<>();
+                Product book = new Product();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    book = ds.getValue(Product.class);
+                    book.setKey(ds.getKey());
+                    listBooks.add(book);
+                }
+                if (listBooks.size() > 0) {
+                    if(sortTab == 0)
+                    {
+                        SortByPublished();
+                    }
+                    else if(sortTab == 1)
+                    {
+                        SortByName();
+                    }
+                    SetUpBookRecycleView();
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+      /*  booksTable.limitToLast(page*LoadMore).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -151,7 +201,7 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
                     }
                 }
             }
-        });
+        }); */
         }
 
     public void GetArticleCount()
@@ -186,14 +236,18 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
         if(position == 0)
         {
             sortTab = 0;
-            SortByPublished();
-            SetUpBookRecycleView();
+
+            ReadFromDatabase();
+           /* SortByPublished();
+            SetUpBookRecycleView(); */
         }
         else if(position == 1)
         {
             sortTab = 1;
-            SortByName();
-            SetUpBookRecycleView();
+
+            ReadFromDatabase();
+          /*  SortByName();
+            SetUpBookRecycleView(); */
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
@@ -59,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         newAccountBtn = findViewById(R.id.newAccountBtn);
 
 
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +72,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                 LoginActivity.this.finish();
+            }
+        });
+
+        forgotPasswordTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SendPasswordReset();
             }
         });
 
@@ -123,6 +130,38 @@ public class LoginActivity extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
+
+    private void SendPasswordReset()
+    {
+        String email = emailInput.getText().toString();
+        if (!email.matches(emailPattern)) {
+            emailInput.setError(getString(R.string.invalidEmail));
+        }
+        else
+        {
+            mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful())
+                    {
+                        // if isSuccessful then done message will be shown
+                        // and you can change the password
+                        Toast.makeText(LoginActivity.this,"Done sent",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this,"Error Occurred",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(LoginActivity.this,"Error Failed",Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+    }
+
 
 
 }

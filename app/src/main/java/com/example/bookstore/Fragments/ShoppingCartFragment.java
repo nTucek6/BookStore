@@ -62,7 +62,7 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
     private ProductAdapter productAdapter;
     private LinearLayout priceDetailsLayout;
     private TextView tvItemsCount,tvToPay;
-    private Button btnContinue;
+    private Button btnContinue,btnRemoveAllFromCart;
     private LinearLayout llCartEmpty;
 
     @Override
@@ -103,6 +103,7 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
         tvItemsCount = rootView.findViewById(R.id.tvItemsCount);
         tvToPay = rootView.findViewById(R.id.tvToPay);
         btnContinue = rootView.findViewById(R.id.btnContinue);
+        btnRemoveAllFromCart = rootView.findViewById(R.id.btnRemoveAllFromCart);
         llCartEmpty = rootView.findViewById(R.id.llCartEmpty);
         llCartEmpty.setVisibility(View.INVISIBLE);
         priceDetailsLayout.setVisibility(View.INVISIBLE);
@@ -124,6 +125,14 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 ((MainActivity) getActivity()).ProceedToPayment(listsProducts,shoppingCartList,listsProduct); //listsProducts
             }
         });
+
+        btnRemoveAllFromCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RemoveAllFromCart();
+            }
+        });
+
         return rootView;
     }
 
@@ -158,65 +167,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
         });
     }
 
-  /*  private void GetArticles()
-    {
-        for (ShoppingCart item: shoppingCartList)
-        {
-            if(item.getProductType().equals("book"))
-            {
-                GetBooksOrComics(item.getProductId(),booksTable);
-                GetProducts(item.getProductId(),productsBookTable);
-            }
-            else if (item.getProductType().equals("comic"))
-            {
-                GetBooksOrComics(item.getProductId(),comicsTable);
-                GetProducts(item.getProductId(),productsComicsTable);
-            }
-        }
-    }
-
-    private void GetBooksOrComics(String articleKey, DatabaseReference reference)
-    {
-        Query query = reference.orderByKey().equalTo(articleKey);
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    Product product = new Product();
-                    product = data.getValue(Product.class);
-                    product.setKey(data.getKey());
-                    listsProduct.add(product);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    private void GetProducts(String productId, DatabaseReference reference) {
-        Query query = reference.orderByChild("productId").equalTo(productId);
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Products product = new Products();
-                    product = data.getValue(Products.class);
-                    //product.setKey(data.getKey());
-                    listsProducts.add(product);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
-    } */
-
     private void GetBooksOrComics()
     {
         booksTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -240,8 +190,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                             }
                         }
                     }
-
-
                 }
             }
         });
@@ -270,7 +218,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 }
             }
         });
-
     }
 
     public void GetProducts()
@@ -337,7 +284,7 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
     public void onArticleClicked(Product product, int position) {
 
         new AlertDialog.Builder(getActivity(),R.style.AlertDialogTheme)
-                .setMessage("Are you sure?")
+                .setMessage(getString(R.string.areyousure))
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -422,5 +369,49 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
             }
         }
     }
+
+    private void RemoveAllFromCart()
+    {
+        new AlertDialog.Builder(getActivity(),R.style.AlertDialogTheme)
+                .setMessage(getString(R.string.areyousure))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Query query = shoppingCartTable.orderByChild("userUID").equalTo(userUID);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot data: snapshot.getChildren()) {
+                                    ShoppingCart cart = new ShoppingCart();
+                                    cart = data.getValue(ShoppingCart.class);
+                                    shoppingCartTable.child(data.getKey()).removeValue();
+                                }
+                                listsProduct = new ArrayList<>();
+                                shoppingCartList = new ArrayList<>();
+                                listsProducts = new ArrayList<>();
+                                SetUpRecyclerView();
+                                if(listsProduct.size() == 0)
+                                {
+                                    priceDetailsLayout.setVisibility(View.INVISIBLE);
+                                    llCartEmpty.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    SetUpInfo();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
+
+    }
+
+
 
 }

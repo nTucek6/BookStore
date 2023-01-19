@@ -226,7 +226,6 @@ public class ProductInfoFragment extends Fragment {
 
     }
 
-
     private void SearchProductFromDatabase(String key) {
         Query bookQuery = FirebaseDatabase.getInstance().getReference("productsBooks").orderByChild("productId").equalTo(key);
         bookQuery.addValueEventListener(new ValueEventListener() {
@@ -238,7 +237,7 @@ public class ProductInfoFragment extends Fragment {
                 if(productsArticle != null)
                 {
                     Type = "book";
-                    tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
+                    //tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
                     tvProductPrice.setText(String.valueOf(productsArticle.getPrice()) + " " + productsArticle.getCurrency());
                 }
                 else
@@ -266,7 +265,7 @@ public class ProductInfoFragment extends Fragment {
                 }
 
                 Type = "comic";
-                tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
+                //tvProductQuantity.setText(String.valueOf(productsArticle.getQuantity()));
                 tvProductPrice.setText(String.valueOf(productsArticle.getPrice()) + " " + productsArticle.getCurrency());
             }
             @Override
