@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -79,7 +81,7 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
 
     private void ReadFromDatabase()
     {
-        booksTable.limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        booksTable.orderByKey().limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -95,15 +97,17 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
                         book.setKey(ds.getKey());
                         listBooks.add(book);
                     }
+
                     if(listBooks.size()>0)
                     {
+                        Collections.reverse(listBooks);
                         SetUpBookRecycleView();
                     }
                 }
             }
         });
 
-        comicsTable.limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        comicsTable.orderByKey().limitToLast(6).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -121,6 +125,7 @@ public class FeaturedFragment extends Fragment implements SelectArticleListener 
                     }
                     if(listComics.size() > 0)
                     {
+                        Collections.reverse(listComics);
                         SetUpComicRecycleView();
                         progressBar.setVisibility(View.INVISIBLE);
                     }

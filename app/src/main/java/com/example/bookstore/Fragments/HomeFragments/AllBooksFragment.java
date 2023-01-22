@@ -60,7 +60,6 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
 
     private int sortTab = 0;
 
-    private long articleCount;
 
     private DatabaseReference booksTable;
 
@@ -73,7 +72,7 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         booksTable = FirebaseDatabase.getInstance().getReference("books");
-        GetArticleCount();
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,28 +118,22 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
     }
 
     private void ReadFromDatabase() {
-
-        String orderBy = null;
-
+        Query query = null;
         if(sortTab == 0)
         {
-            orderBy = "published";
+           query = booksTable.limitToLast(page*LoadMore);
         }
         else
         {
-            orderBy = "name";
+            query = booksTable.orderByChild("name").limitToFirst(page*LoadMore);
         }
-
-        Query query = booksTable.orderByChild(orderBy).limitToFirst(page*LoadMore);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildrenCount() == articleCount)
-                {
-                    // loadingPB.setVisibility(View.INVISIBLE);
-                    LLLoading.setVisibility(View.INVISIBLE);
-                }
+
+                LLLoading.setVisibility(View.INVISIBLE);
+
                 listBooks = new ArrayList<>();
                 Product book = new Product();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -149,11 +142,8 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
                     listBooks.add(book);
                 }
                 if (listBooks.size() > 0) {
-                    if(sortTab == 0)
-                    {
-                        SortByPublished();
-                    }
-                    else if(sortTab == 1)
+                    Collections.reverse(listBooks);
+                     if(sortTab == 1)
                     {
                         SortByName();
                     }
@@ -166,57 +156,7 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
                 Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-      /*  booksTable.limitToLast(page*LoadMore).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-
-                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if(task.getResult().getChildrenCount() == articleCount)
-                    {
-                        // loadingPB.setVisibility(View.INVISIBLE);
-                        LLLoading.setVisibility(View.INVISIBLE);
-                    }
-                    listBooks = new ArrayList<>();
-                    Product book = new Product();
-                    for (DataSnapshot ds : task.getResult().getChildren()) {
-                        book = ds.getValue(Product.class);
-                        book.setKey(ds.getKey());
-                        listBooks.add(book);
-                    }
-                    if (listBooks.size() > 0) {
-                        if(sortTab == 0)
-                        {
-                            SortByPublished();
-                        }
-                        else if(sortTab == 1)
-                        {
-                            SortByName();
-                        }
-                        SetUpBookRecycleView();
-                    }
-                }
-            }
-        }); */
         }
-
-    public void GetArticleCount()
-    {
-        booksTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-               articleCount = task.getResult().getChildrenCount();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-            }
-        });
-    }
 
     private void SetUpBookRecycleView()
     {
@@ -236,18 +176,12 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
         if(position == 0)
         {
             sortTab = 0;
-
             ReadFromDatabase();
-           /* SortByPublished();
-            SetUpBookRecycleView(); */
         }
         else if(position == 1)
         {
             sortTab = 1;
-
             ReadFromDatabase();
-          /*  SortByName();
-            SetUpBookRecycleView(); */
         }
     }
 

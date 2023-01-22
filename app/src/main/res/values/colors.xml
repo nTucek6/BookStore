@@ -3,8 +3,6 @@
 
     <color name="activityBackground">#02010A</color>
 
-
-
     <color name="purple_200">#aa00ff</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -23,19 +21,21 @@
 
     <color name="baby_blue">#89CFF0</color>
 
-    <color name="cardViewColor">#212027</color>
+   <!-- <color name="cardViewColor">#212027</color> -->
 
-    <color name="btnColor">#0A0C71</color>
+    <color name="cardViewColor">#4F6D7A</color>
+
+    <color name="btnColor">#EDAE49</color>
 
     <color name="btnLogin">#BBD686</color>
 
     <color name="textColor">#EEF1BD</color>
 
-    <color name="dividerColor">#140152</color>
+    <color name="dividerColor">#ff7211</color>
 
     <color name="LogoutButton">#8B0000</color>
 
-    <color name="btnTextColor">#FFFFFF</color>
+    <color name="btnTextColor">#000000</color>
 
 
 </resources>

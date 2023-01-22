@@ -27,8 +27,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,8 +64,6 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
 
     private int sortTab = 0;
 
-    private long articleCount;
-
    /* @Override
     public void onResume() {
         super.onResume();
@@ -74,7 +75,7 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         comicsTable = FirebaseDatabase.getInstance().getReference("comics");
-        GetArticleCount();
+
     }
 
     @Override
@@ -84,7 +85,6 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
         rootView = inflater.inflate(R.layout.fragment_all_comics, container, false);
 
         recyclerViewComic = rootView.findViewById(R.id.AllComicsRecyclerView);
-        //loadingPB = rootView.findViewById(R.id.idPBLoading);
         nestedSV =  rootView.findViewById(R.id.idNestedSV);
         LLLoading = rootView.findViewById(R.id.idLLLoading);
         tabLayoutFilter = rootView.findViewById(R.id.tabLayoutFilter);
@@ -111,7 +111,6 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
         tabLayoutFilter.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.i("tab",String.valueOf(tab.getPosition()));
                 SortArticle(tab.getPosition());
             }
             @Override
@@ -127,46 +126,46 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
 
     private void ReadFromDatabase()
     {
-        //limitToLast(6)
-        comicsTable.limitToLast(page*LoadMore).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        Query query = null;
+        if(sortTab == 0)
+        {
+            query = comicsTable.limitToLast(page*LoadMore);
+        }
+        else
+        {
+            query = comicsTable.orderByChild("name").limitToFirst(page*LoadMore);
+        }
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    //progressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getActivity(),"Failed!",Toast.LENGTH_SHORT).show();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                LLLoading.setVisibility(View.INVISIBLE);
+
+                listComics = new ArrayList<>();
+                Product comic = new Product();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    comic = ds.getValue(Product.class);
+                    comic.setKey(ds.getKey());
+                    listComics.add(comic);
                 }
-                else
-                {
-                    if(task.getResult().getChildrenCount() == articleCount)
-                    {
-                        //loadingPB.setVisibility(View.INVISIBLE);
-                        LLLoading.setVisibility(View.INVISIBLE);
-                    }
+                if (listComics.size() > 0) {
+                    Collections.reverse(listComics);
 
-                    for(DataSnapshot ds : task.getResult().getChildren())
+                    if(sortTab == 1)
                     {
-                        Product comic = new Product();
-                        comic = ds.getValue(Product.class);
-                        comic.setKey(ds.getKey());
-                        listComics.add(comic);
+                        SortByName();
                     }
-
-                    if(listComics.size() > 0)
-                    {
-                        if(sortTab == 0)
-                        {
-                            SortByPublished();
-                        }
-                        else if(sortTab == 1)
-                        {
-                            SortByName();
-                        }
-
-                        SetUpComicRecycleView();
-                    }
+                    SetUpComicRecycleView();
                 }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void SetUpComicRecycleView()
@@ -177,35 +176,19 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
         recyclerViewComic.setAdapter(comicsAdapter);
     }
 
-    public void GetArticleCount()
-    {
-        comicsTable.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                articleCount = task.getResult().getChildrenCount();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
 
-            }
-        });
-
-    }
 
     private void SortArticle(int position)
     {
         if(position == 0)
         {
             sortTab = 0;
-            SortByPublished();
-            SetUpComicRecycleView();
+            ReadFromDatabase();
         }
         else if(position == 1)
         {
             sortTab = 1;
-            SortByName();
-            SetUpComicRecycleView();
+            ReadFromDatabase();
         }
     }
 

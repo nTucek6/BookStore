@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btnProfile"
             android:backgroundTint="@color/btnColor"
+            android:textColor="@color/btnTextColor"
             />
 
        <Button
@@ -44,6 +45,7 @@
            android:layout_height="wrap_content"
            android:text="@string/btnOrders"
            android:backgroundTint="@color/btnColor"
+           android:textColor="@color/btnTextColor"
            android:layout_marginTop="5dp"
            />
 
