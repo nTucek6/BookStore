@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="activityBackground">#02010A</color>
+    <!-- <color name="activityBackground">#02010A</color> -->
+
+    <color name="activityBackground">#272727</color>
 
     <color name="purple_200">#aa00ff</color>
     <color name="purple_500">#FF6200EE</color>

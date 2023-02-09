@@ -107,6 +107,8 @@
     <string name="tvAddress">Adresa:</string>
     <string name="tvCity">Grad:</string>
     <string name="tvStatus">Status:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- ========== Orders fragment ==========  -->
 
 </resources>

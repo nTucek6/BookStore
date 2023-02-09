@@ -4,22 +4,27 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.bookstore.Classes.CardData;
 import com.example.bookstore.Classes.Order;
 import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Classes.ProductOrderInfo;
 import com.example.bookstore.Classes.Products;
 import com.example.bookstore.Classes.ShoppingCart;
 import com.example.bookstore.Classes.User;
+import com.example.bookstore.Fragments.PaymentType.CardFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +47,7 @@ public class PaymentTypeFragment extends Fragment {
     private Button btnPlaceOrder;
     private RadioGroup radio_group;
     private RadioButton radio_paymentType;
+    private FrameLayout paymentFrame;
     private List<Products> productsList;
     private List<ShoppingCart> shoppingCartList;
     private List<Product> productList;
@@ -74,20 +80,32 @@ public class PaymentTypeFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_payment_type, container, false);
 
+        paymentFrame = rootView.findViewById(R.id.paymentFrame);
+        //paymentFrame.setVisibility(View.INVISIBLE);
         btnPlaceOrder = rootView.findViewById(R.id.btnPlaceOrder);
         radio_group = rootView.findViewById(R.id.radio_group);
         //radio_onDelivery = rootView.findViewById(R.id.radio_onDelivery);
-
-
 
         radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int radioId = radio_group.getCheckedRadioButtonId();
                 radio_paymentType = rootView.findViewById(radioId);
+               // paymentFrame.setVisibility(View.INVISIBLE);
+
+                if(getChildFragmentManager().findFragmentById(R.id.paymentFrame) != null)
+                {
+                    getChildFragmentManager().beginTransaction().remove(getChildFragmentManager().findFragmentById(R.id.paymentFrame)).commit();
+                }
+
+                if(radioId == R.id.radio_Card)
+                {
+                    //paymentFrame.setVisibility(View.VISIBLE);
+                    getChildFragmentManager().beginTransaction().replace(R.id.paymentFrame,new CardFragment()).commit();
+                }
+
             }
         });
-
 
         btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +115,23 @@ public class PaymentTypeFragment extends Fragment {
                 {
                     if(radio_paymentType.isChecked())
                     {
-                        FinishOrder();
+                        if(radio_paymentType.equals(rootView.findViewById(R.id.radio_onDelivery)))
+                        {
+                            FinishOrder();
+                        }
+                        else if(radio_paymentType.equals(rootView.findViewById(R.id.radio_Card)))
+                        {
+                        CardFragment cardFragment = (CardFragment)getChildFragmentManager().findFragmentById(R.id.paymentFrame);
+
+                        if(cardFragment.CheckInput())
+                        {
+                            CardData cardData = cardFragment.GetData();
+
+
+                        }
+
+                        }
+
                     }
                 }
                 else

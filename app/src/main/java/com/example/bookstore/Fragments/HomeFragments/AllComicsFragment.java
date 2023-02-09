@@ -49,7 +49,6 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
     private RecyclerView recyclerViewComic;
 
     private LinearLayout LLLoading;
-    //private ProgressBar loadingPB;
     private NestedScrollView nestedSV;
     private TabLayout tabLayoutFilter;
 
