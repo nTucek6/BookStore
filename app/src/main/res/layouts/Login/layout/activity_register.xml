@@ -30,7 +30,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             android:layout_marginTop="40dp"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordInput"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordInput"
@@ -87,7 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@drawable/custom_input"
+                android:layout_marginRight="2dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameInput"
@@ -102,7 +103,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/custom_input"
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/surnameInput"
@@ -119,7 +121,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             android:layout_marginTop="15dp"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -134,7 +136,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             android:layout_marginTop="15dp"
             >
             <com.google.android.material.textfield.TextInputEditText

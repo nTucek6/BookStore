@@ -23,9 +23,11 @@
 
     <color name="baby_blue">#89CFF0</color>
 
-   <!-- <color name="cardViewColor">#212027</color> -->
+   <!-- <color name="cardViewColor">#424242</color> -->
 
-    <color name="cardViewColor">#4F6D7A</color>
+    <!--<color name="cardViewColor">#4F6D7A</color> -->
+
+    <color name="cardViewColor">#505050</color>
 
     <color name="btnColor">#EDAE49</color>
 
@@ -38,6 +40,8 @@
     <color name="LogoutButton">#8B0000</color>
 
     <color name="btnTextColor">#000000</color>
+
+    <color name="inputColor">#E0E0E0</color>
 
 
 </resources>

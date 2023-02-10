@@ -61,8 +61,6 @@ public class UserFragment extends Fragment {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         userTable = FirebaseDatabase.getInstance().getReference("users");
 
-
-
         etName = rootView.findViewById(R.id.etName);
         etSurname = rootView.findViewById(R.id.etSurname);
         tvEmail = rootView.findViewById(R.id.tvEmail);
@@ -93,7 +91,7 @@ public class UserFragment extends Fragment {
 
     private void ReadUserFromDatabase(String key) {
         Query query = userTable.orderByChild("userUID").equalTo(key);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
@@ -114,6 +112,20 @@ public class UserFragment extends Fragment {
         });
     }
 
+    private boolean CheckWhiteSpace(String check)
+    {
+        boolean isWhitespace = check.matches("^\\s*$");
+        if(isWhitespace)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
     private void UpdateUserInfo()
     {
         String name = etName.getText().toString();
@@ -121,9 +133,39 @@ public class UserFragment extends Fragment {
         String address = etAddress.getText().toString();
         String city = etCity.getText().toString();
 
-        User user = new User(mUser.getUid(),name,surname,address,city);
-        Map<String, Object> userValues = user.toMap();
-        userTable.child(tableKey).updateChildren(userValues);
+        boolean update = true;
+
+        if(name.length() == 0 || CheckWhiteSpace(name))
+        {
+            etName.setError("Unesite ime!");
+            update = false;
+        }
+
+        if(surname.length() == 0 || CheckWhiteSpace(surname))
+        {
+            etSurname.setError("Unesite prezime!");
+            update = false;
+        }
+
+        if(address.length() == 0 || CheckWhiteSpace(address))
+        {
+            etAddress.setError("Unesite adresu!");
+            update = false;
+        }
+
+        if(city.length() == 0 || CheckWhiteSpace(city))
+        {
+            etCity.setError("Unesite grad!");
+            update = false;
+        }
+
+        if(update)
+        {
+            User user = new User(mUser.getUid(),name,surname,address,city);
+            Map<String, Object> userValues = user.toMap();
+            userTable.child(tableKey).updateChildren(userValues);
+        }
+
     }
 
 }

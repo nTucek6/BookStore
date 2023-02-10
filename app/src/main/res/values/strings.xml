@@ -104,6 +104,9 @@
     <string name="tvCity">City:</string>
     <string name="tvStatus">Status:</string>
     <string name="tvPaymentType">Payment type:</string>
+
+    <string name="ordersEmpty">Orders is empty!</string>
+
     <!-- ========== Orders fragment ==========  -->
 
 

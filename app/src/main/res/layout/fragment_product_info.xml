@@ -32,13 +32,17 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/ProductInfoNavigation"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         >
 
         <ImageView
             android:id="@+id/ivProductImage"
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_baseline_library_books_24"
+            android:layout_marginRight="5dp"
+            android:scaleType="centerCrop"
             />
 
         <LinearLayout

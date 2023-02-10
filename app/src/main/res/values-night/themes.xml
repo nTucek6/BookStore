@@ -18,11 +18,19 @@
 
         <item name="android:textColor">#EEF1BD</item>
 
+    <!--    <item name="textInputStyle">@style/InputTextMyStyle</item> -->
+
         <!--<item name="android:background">@color/black</item> -->
     </style>
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/black</item>
     </style>
+
+   <!-- <style name="InputTextMyStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="boxBackgroundColor">@color/inputColor</item>
+    </style> -->
+
 
 </resources>

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.bookstore.Adapters.OrdersAdapter;
@@ -43,6 +44,7 @@ public class OrdersFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private OrdersAdapter ordersAdapter;
     private ImageView ivBack;
+    private LinearLayout llOrdersEmpty;
 
     private List<Order> orderList = new ArrayList<>();
 
@@ -61,6 +63,7 @@ public class OrdersFragment extends Fragment {
 
         ordersRecyclerView = rootView.findViewById(R.id.rvOrdersInfo);
         ivBack = rootView.findViewById(R.id.ivBack);
+        llOrdersEmpty = rootView.findViewById(R.id.llOrdersEmpty);
 
         GetUserOrders();
 
@@ -91,6 +94,7 @@ public class OrdersFragment extends Fragment {
                 }
                 if(orderList.size()>0)
                 {
+                    llOrdersEmpty.setVisibility(View.INVISIBLE);
                     SetUpRecyclerView();
                 }
             }

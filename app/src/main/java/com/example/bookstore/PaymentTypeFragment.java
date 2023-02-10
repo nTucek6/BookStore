@@ -159,7 +159,7 @@ public class PaymentTypeFragment extends Fragment {
     public void GetCard(CardData cardData)
     {
         Query query = cardTable.orderByChild("cardNumber").equalTo(cardData.getCardNumber());
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount()>0)
@@ -179,7 +179,7 @@ public class PaymentTypeFragment extends Fragment {
                         {
                             card.setBalance(card.getBalance()-price);
                             Map<String, Object> cardValues = card.toMap();
-                            userTable.child(data.getKey()).updateChildren(cardValues);
+                            cardTable.child(data.getKey()).updateChildren(cardValues);
                             FinishOrder("Card");
                         }
                         else

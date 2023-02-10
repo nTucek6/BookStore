@@ -128,7 +128,7 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
                         productList.add(product);
                     }
                 }
-                Log.e("Count",String.valueOf(productList.size()));
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -150,7 +150,6 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
                         productList.add(product);
                     }
                 }
-                Log.e("Count",String.valueOf(productList.size()));
                 SetUpRecyclerView();
             }
             @Override

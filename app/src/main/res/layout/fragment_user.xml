@@ -41,27 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-     <!--   <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@color/white"
-            app:boxCornerRadiusBottomStart="8dp"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawablePadding="10dp"
-                android:hint="@string/emailInputhint" />
-        </com.google.android.material.textfield.TextInputLayout> -->
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             app:boxCornerRadiusBottomStart="8dp"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -76,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             app:boxCornerRadiusBottomStart="8dp"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -91,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             app:boxCornerRadiusBottomStart="8dp"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -106,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@color/white"
+            android:background="@drawable/custom_input"
             app:boxCornerRadiusBottomStart="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCity"

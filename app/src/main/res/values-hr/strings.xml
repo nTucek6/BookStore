@@ -109,6 +109,7 @@
     <string name="tvStatus">Status:</string>
     <string name="tvPaymentType">Način plačanja:</string>
 
+    <string name="ordersEmpty">Narudžbe su prazne!</string>
     <!-- ========== Orders fragment ==========  -->
 
 </resources>

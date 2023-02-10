@@ -17,6 +17,8 @@
 
         <item name="android:textColor">#EEF1BD</item>
 
+      <!--  <item name="textInputStyle">@style/InputTextMyStyle</item> -->
+
         <!-- <item name="android:background">@color/white</item> -->
     </style>
 
@@ -24,6 +26,12 @@
         <item name="colorAccent">@color/black</item>
     </style>
 
+
+
+  <!--  <style name="InputTextMyStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="boxBackgroundColor">@color/inputColor</item>
+    </style> -->
 
 
 </resources>
