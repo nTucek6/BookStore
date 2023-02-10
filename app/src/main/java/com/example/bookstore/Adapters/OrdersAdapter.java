@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookstore.Classes.Order;
 import com.example.bookstore.Classes.ProductOrderInfo;
+import com.example.bookstore.Interfaces.SelectOrderListener;
 import com.example.bookstore.R;
 
 import java.util.List;
@@ -19,9 +21,13 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 {
 
     private List<Order> orderList;
+    private SelectOrderListener selectOrderListener;
 
-    public OrdersAdapter(List<Order> orderList) {
+
+
+    public OrdersAdapter(List<Order> orderList,SelectOrderListener selectOrderListener) {
         this.orderList = orderList;
+        this.selectOrderListener = selectOrderListener;
     }
 
     @NonNull
@@ -34,7 +40,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        String articles = "";
+      /*  String articles = "";
         int size = orderList.get(position).getArticle().size();
         int count = 1;
         for (ProductOrderInfo product: orderList.get(position).getArticle())
@@ -56,7 +62,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         holder.tvStatus.setText(orderList.get(position).getStatus());
         holder.tvAddress.setText(orderList.get(position).getAddress());
         holder.tvCity.setText(orderList.get(position).getCity());
-        holder.tvPaymentType.setText(orderList.get(position).getOrderPaymentType());
+        holder.tvPaymentType.setText(orderList.get(position).getOrderPaymentType()); */
+
+        holder.llOrderLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectOrderListener.onArticleClicked(orderList.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -65,19 +78,21 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvProductNames,tvOrderKey,tvDate,tvTotalPrice,tvStatus,tvAddress,tvCity,tvPaymentType;
+        //TextView tvProductNames,tvOrderKey,tvDate,tvTotalPrice,tvStatus,tvAddress,tvCity,tvPaymentType;
+        LinearLayout llOrderLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvProductNames = itemView.findViewById(R.id.tvProductNames);
+         /*   tvProductNames = itemView.findViewById(R.id.tvProductNames);
             tvOrderKey = itemView.findViewById(R.id.tvOrderKey);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvCity = itemView.findViewById(R.id.tvCity);
-            tvPaymentType = itemView.findViewById(R.id.tvPaymentType);
+            tvPaymentType = itemView.findViewById(R.id.tvPaymentType); */
+            llOrderLayout = itemView.findViewById(R.id.llOrderLayout);
         }
     }
 }

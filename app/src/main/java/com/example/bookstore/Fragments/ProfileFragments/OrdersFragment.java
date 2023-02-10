@@ -1,5 +1,6 @@
 package com.example.bookstore.Fragments.ProfileFragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +15,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bookstore.Adapters.OrdersAdapter;
 import com.example.bookstore.Adapters.ProductAdapter;
 import com.example.bookstore.Classes.Order;
+import com.example.bookstore.Classes.ProductOrderInfo;
 import com.example.bookstore.Fragments.ShoppingCartFragment;
+import com.example.bookstore.Interfaces.SelectOrderListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class OrdersFragment extends Fragment {
+public class OrdersFragment extends Fragment implements SelectOrderListener {
 
     private View rootView;
 
@@ -45,6 +49,7 @@ public class OrdersFragment extends Fragment {
     private OrdersAdapter ordersAdapter;
     private ImageView ivBack;
     private LinearLayout llOrdersEmpty;
+
 
     private List<Order> orderList = new ArrayList<>();
 
@@ -64,6 +69,7 @@ public class OrdersFragment extends Fragment {
         ordersRecyclerView = rootView.findViewById(R.id.rvOrdersInfo);
         ivBack = rootView.findViewById(R.id.ivBack);
         llOrdersEmpty = rootView.findViewById(R.id.llOrdersEmpty);
+
 
         GetUserOrders();
 
@@ -109,8 +115,43 @@ public class OrdersFragment extends Fragment {
     {
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
         ordersRecyclerView.setLayoutManager(layoutManager);
-        ordersAdapter = new OrdersAdapter(orderList);
+        ordersAdapter = new OrdersAdapter(orderList,OrdersFragment.this);
         ordersRecyclerView.setAdapter(ordersAdapter);
     }
 
+    @Override
+    public void onArticleClicked(Order order) {
+        final Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_Holo_Dialog);
+        dialog.setTitle("Order info");
+        dialog.setContentView(R.layout.dialog_order);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        String articles = "";
+        int size = order.getArticle().size();
+        int count = 1;
+        for (ProductOrderInfo product: order.getArticle())
+        {
+            if(count == size)
+            {
+                articles += product.getArticleName();
+            }
+            else
+            {
+                articles += product.getArticleName()+", ";
+            }
+            count++;
+        }
+
+        ((TextView)dialog.findViewById(R.id.tvProductNames)).setText(articles);
+        ((TextView)dialog.findViewById(R.id.tvOrderKey)).setText(order.getOrderKey());
+        ((TextView)dialog.findViewById(R.id.tvDate)).setText(order.getOrderDate());
+        ((TextView)dialog.findViewById(R.id.tvTotalPrice)).setText(String.valueOf(order.getTotalPrice())+" " + order.getCurrency());
+        ((TextView)dialog.findViewById(R.id.tvStatus)).setText(order.getStatus());
+        ((TextView)dialog.findViewById(R.id.tvAddress)).setText(order.getAddress());
+        ((TextView)dialog.findViewById(R.id.tvCity)).setText(order.getCity());
+        ((TextView)dialog.findViewById(R.id.tvPaymentType)).setText(order.getOrderPaymentType());
+
+        dialog.show();
+
+    }
 }
