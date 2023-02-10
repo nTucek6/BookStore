@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment //implements SelectArticleListener
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
             }
         });
 

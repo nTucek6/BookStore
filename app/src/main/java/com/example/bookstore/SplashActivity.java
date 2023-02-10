@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.bookstore.Fragments.Startup.NoInternetFragment;
 import com.example.bookstore.Fragments.Startup.SplashFragment;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide(); // Removes top bar
+
         setContentView(R.layout.activity_splash);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -69,5 +72,6 @@ public class SplashActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
+
 
 }

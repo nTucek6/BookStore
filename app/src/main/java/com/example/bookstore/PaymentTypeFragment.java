@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class PaymentTypeFragment extends Fragment {
 
@@ -47,7 +48,6 @@ public class PaymentTypeFragment extends Fragment {
     private Button btnPlaceOrder;
     private RadioGroup radio_group;
     private RadioButton radio_paymentType;
-    private FrameLayout paymentFrame;
     private List<Products> productsList;
     private List<ShoppingCart> shoppingCartList;
     private List<Product> productList;
@@ -55,6 +55,7 @@ public class PaymentTypeFragment extends Fragment {
     private DatabaseReference orderTable;
     private DatabaseReference userTable;
     private DatabaseReference shoppingCartTable;
+    private DatabaseReference cardTable;
     private final String userUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private User user;
 
@@ -71,6 +72,7 @@ public class PaymentTypeFragment extends Fragment {
         orderTable = FirebaseDatabase.getInstance().getReference("orders");
         shoppingCartTable = FirebaseDatabase.getInstance().getReference("shoppingCart");
         userTable = FirebaseDatabase.getInstance().getReference("users");
+        cardTable = FirebaseDatabase.getInstance().getReference("card");
         ReadUserFromDatabase(userUID);
     }
 
@@ -80,18 +82,14 @@ public class PaymentTypeFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_payment_type, container, false);
 
-        paymentFrame = rootView.findViewById(R.id.paymentFrame);
-        //paymentFrame.setVisibility(View.INVISIBLE);
         btnPlaceOrder = rootView.findViewById(R.id.btnPlaceOrder);
         radio_group = rootView.findViewById(R.id.radio_group);
-        //radio_onDelivery = rootView.findViewById(R.id.radio_onDelivery);
 
         radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int radioId = radio_group.getCheckedRadioButtonId();
                 radio_paymentType = rootView.findViewById(radioId);
-               // paymentFrame.setVisibility(View.INVISIBLE);
 
                 if(getChildFragmentManager().findFragmentById(R.id.paymentFrame) != null)
                 {
@@ -100,7 +98,6 @@ public class PaymentTypeFragment extends Fragment {
 
                 if(radioId == R.id.radio_Card)
                 {
-                    //paymentFrame.setVisibility(View.VISIBLE);
                     getChildFragmentManager().beginTransaction().replace(R.id.paymentFrame,new CardFragment()).commit();
                 }
 
@@ -117,7 +114,7 @@ public class PaymentTypeFragment extends Fragment {
                     {
                         if(radio_paymentType.equals(rootView.findViewById(R.id.radio_onDelivery)))
                         {
-                            FinishOrder();
+                            FinishOrder("onDelivery");
                         }
                         else if(radio_paymentType.equals(rootView.findViewById(R.id.radio_Card)))
                         {
@@ -126,12 +123,9 @@ public class PaymentTypeFragment extends Fragment {
                         if(cardFragment.CheckInput())
                         {
                             CardData cardData = cardFragment.GetData();
-
-
+                            GetCard(cardData);
                         }
-
                         }
-
                     }
                 }
                 else
@@ -162,9 +156,64 @@ public class PaymentTypeFragment extends Fragment {
         });
     }
 
+    public void GetCard(CardData cardData)
+    {
+        Query query = cardTable.orderByChild("cardNumber").equalTo(cardData.getCardNumber());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount()>0)
+                {
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                    CardData card = data.getValue(CardData.class);
+
+                    if(!card.getExpireDate().equals(cardData.getExpireDate()) || !card.getCvv().equals(cardData.getCvv()) || !card.getCardHolderName().equals(cardData.getCardHolderName()))
+                    {
+                        Toast.makeText(getActivity(), "Pogrešni podatci kartice!", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        float price = GetPrice();
+
+                        if(card.getBalance() > price)
+                        {
+                            card.setBalance(card.getBalance()-price);
+                            Map<String, Object> cardValues = card.toMap();
+                            userTable.child(data.getKey()).updateChildren(cardValues);
+                            FinishOrder("Card");
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Transakcija je odbijena!", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "Unesena kartica ne postoji!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(),"",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void UpdateCardBalance(CardData u)
+    {
 
 
-    private void FinishOrder()
+
+    }
+
+
+    private void FinishOrder(String orderPaymentType)
     {
         SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
         String date = fmt.format(new Date());
@@ -196,6 +245,7 @@ public class PaymentTypeFragment extends Fragment {
         order.setCurrency("EUR");
         order.setAddress(user.getAddress());
         order.setCity(user.getCity());
+        order.setOrderPaymentType(orderPaymentType);
 
        // Toast.makeText(getActivity(), date, Toast.LENGTH_SHORT).show();
 

@@ -13,6 +13,7 @@ public class Order {
     private String city;
     private String currency;
     private List<ProductOrderInfo> article;
+    private String orderPaymentType;
     private String status;
 
     public Order() {
@@ -88,5 +89,13 @@ public class Order {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getOrderPaymentType() {
+        return orderPaymentType;
+    }
+
+    public void setOrderPaymentType(String orderPaymentType) {
+        this.orderPaymentType = orderPaymentType;
     }
 }
