@@ -46,7 +46,6 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
 
     private View rootView;
     private TextView tvCancel;
-    //private TextInputEditText searchArticle;
     private EditText searchArticle;
     private RecyclerView rvSearch;
 
@@ -78,8 +77,19 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
         searchArticle.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchArticle.setSingleLine();
 
-
-
+        searchArticle.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if(searchArticle.getText().length() == 0)
+                {
+                    productList = new ArrayList<>();
+                    SetUpRecyclerView();
+                }
+            }
+                return false;
+        }
+    });
 
         searchArticle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,7 +97,6 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //Log.e("Text",s.toString());
 
                 if(!s.toString().isEmpty())
                 {
@@ -133,7 +142,6 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
                         productList.add(product);
                     }
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
