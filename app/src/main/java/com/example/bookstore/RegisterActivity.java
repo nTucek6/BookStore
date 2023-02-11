@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -83,12 +84,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void SetEditText()
     {
-        emailInput.setImeOptions(EditorInfo.IME_ACTION_GO);
-        passwordInput.setImeOptions(EditorInfo.IME_ACTION_GO);
-        confirmPasswordInput.setImeOptions(EditorInfo.IME_ACTION_GO);
-        nameInput.setImeOptions(EditorInfo.IME_ACTION_GO);
-        surnameInput.setImeOptions(EditorInfo.IME_ACTION_GO);
-        addressInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        emailInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        passwordInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        confirmPasswordInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        nameInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        surnameInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        addressInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         cityInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         emailInput.setSingleLine();
@@ -98,6 +99,9 @@ public class RegisterActivity extends AppCompatActivity {
         surnameInput.setSingleLine();
         addressInput.setSingleLine();
         cityInput.setSingleLine();
+
+        passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        confirmPasswordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
     }
 
