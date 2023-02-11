@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText emailInput, passwordInput;
     private Button loginBtn,newAccountBtn;
-    private TextView forgotPasswordTv;
+    private TextView forgotPasswordTv,tvInvalidMessage;
 
     private String emailPattern = "^(.+)@(\\S+)$";
 
@@ -58,7 +61,9 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         forgotPasswordTv = findViewById(R.id.passwordForgotTv);
         newAccountBtn = findViewById(R.id.newAccountBtn);
+        tvInvalidMessage = findViewById(R.id.tvInvalidMessage);
 
+        SetEditText();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +90,21 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void SetEditText()
+    {
+        emailInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        passwordInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        emailInput.setSingleLine();
+        passwordInput.setSingleLine();
+    }
+
+
     private void LoginUser() {
+
+        emailInput.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        passwordInput.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
         String email = emailInput.getText().toString();
         String password = passwordInput.getText().toString();
 
@@ -103,10 +122,12 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         toggleProgressBar(false);
                         SendToMainActivity();
-                        Toast.makeText(LoginActivity.this, getString(R.string.loginComplited), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(LoginActivity.this, getString(R.string.loginComplited), Toast.LENGTH_SHORT).show();
                     } else {
                         toggleProgressBar(false);
-                        Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                       // Log.i("Login",task.getException().getMessage());
+                       // Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        tvInvalidMessage.setText(task.getException().getMessage());
                     }
 
                 }

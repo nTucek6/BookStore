@@ -65,7 +65,6 @@ public class PaymentTypeFragment extends Fragment {
         this.productList = productList;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,17 +204,9 @@ public class PaymentTypeFragment extends Fragment {
 
     }
 
-    private void UpdateCardBalance(CardData u)
-    {
-
-
-
-    }
-
-
     private void FinishOrder(String orderPaymentType)
     {
-        SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String date = fmt.format(new Date());
 
         List<ProductOrderInfo> orderInfoList = new ArrayList<>();

@@ -64,6 +64,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         holder.tvCity.setText(orderList.get(position).getCity());
         holder.tvPaymentType.setText(orderList.get(position).getOrderPaymentType()); */
 
+        holder.orderDate.setText(orderList.get(position).getOrderDate());
+
         holder.llOrderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +82,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
         //TextView tvProductNames,tvOrderKey,tvDate,tvTotalPrice,tvStatus,tvAddress,tvCity,tvPaymentType;
         LinearLayout llOrderLayout;
+        TextView orderDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +96,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             tvCity = itemView.findViewById(R.id.tvCity);
             tvPaymentType = itemView.findViewById(R.id.tvPaymentType); */
             llOrderLayout = itemView.findViewById(R.id.llOrderLayout);
+            orderDate = itemView.findViewById(R.id.orderDate);
         }
     }
 }

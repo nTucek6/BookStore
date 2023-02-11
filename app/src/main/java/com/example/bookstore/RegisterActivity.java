@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.registerBtn);
         loginActivityBtn = findViewById(R.id.LoginAccountBtn);
 
+        SetEditText();
+
         mAuth = FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
 
@@ -75,9 +78,29 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+
+    private void SetEditText()
+    {
+        emailInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        passwordInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        confirmPasswordInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        nameInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        surnameInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        addressInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        cityInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        emailInput.setSingleLine();
+        passwordInput.setSingleLine();
+        confirmPasswordInput.setSingleLine();
+        nameInput.setSingleLine();
+        surnameInput.setSingleLine();
+        addressInput.setSingleLine();
+        cityInput.setSingleLine();
 
     }
+
 
 
     private void authRegisterInput()

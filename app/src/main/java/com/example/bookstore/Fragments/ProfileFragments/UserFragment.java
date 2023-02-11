@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,8 +68,10 @@ public class UserFragment extends Fragment {
         etAddress = rootView.findViewById(R.id.etAddress);
         etCity = rootView.findViewById(R.id.etCity);
         btnUpdate = rootView.findViewById(R.id.btnUpdate);
+        ivBack = rootView.findViewById(R.id.ivBack);
 
-         ivBack = rootView.findViewById(R.id.ivBack);
+        SetEditText();
+
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,11 +86,34 @@ public class UserFragment extends Fragment {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onUpdate();
                 UpdateUserInfo();
             }
         });
         return rootView;
     }
+
+    private void SetEditText()
+    {
+        etName.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        etSurname.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        etAddress.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        etCity.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        etName.setSingleLine();
+        etSurname.setSingleLine();
+        etCity.setSingleLine();
+        etAddress.setSingleLine();
+    }
+
+    public void onUpdate()
+    {
+        etName.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        etAddress.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        etCity.onEditorAction(EditorInfo.IME_ACTION_DONE);
+    }
+
 
     private void ReadUserFromDatabase(String key) {
         Query query = userTable.orderByChild("userUID").equalTo(key);

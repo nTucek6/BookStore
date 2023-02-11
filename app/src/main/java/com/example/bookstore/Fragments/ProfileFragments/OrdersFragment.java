@@ -152,6 +152,5 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
         ((TextView)dialog.findViewById(R.id.tvPaymentType)).setText(order.getOrderPaymentType());
 
         dialog.show();
-
     }
 }

@@ -11,11 +11,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.BaseKeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,8 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
 
     private View rootView;
     private TextView tvCancel;
-    private TextInputEditText searchArticle;
+    //private TextInputEditText searchArticle;
+    private EditText searchArticle;
     private RecyclerView rvSearch;
 
     private DatabaseReference booksTable;
@@ -72,12 +75,16 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
         searchArticle = rootView.findViewById(R.id.etSearch);
         rvSearch = rootView.findViewById(R.id.rvSearch);
 
+        searchArticle.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchArticle.setSingleLine();
+
+
+
+
         searchArticle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Log.e("Text",s.toString());
@@ -91,8 +98,6 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
                     productList = new ArrayList<>();
                     SetUpRecyclerView();
                 }
-
-
             }
 
             @Override

@@ -24,7 +24,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+         <!--   <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -35,7 +35,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Search article" />
-            </com.google.android.material.textfield.TextInputLayout> -
+            </com.google.android.material.textfield.TextInputLayout> -->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/etSearch"
+                android:hint="Search article"
+
+                />
 
 
 
