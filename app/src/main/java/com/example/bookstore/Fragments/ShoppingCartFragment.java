@@ -409,9 +409,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 })
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
-
     }
-
-
 
 }

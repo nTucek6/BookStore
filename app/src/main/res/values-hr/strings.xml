@@ -108,8 +108,8 @@
     <string name="tvCity">Grad:</string>
     <string name="tvStatus">Status:</string>
     <string name="tvPaymentType">Način plačanja:</string>
-
     <string name="ordersEmpty">Narudžbe su prazne!</string>
+    <string name="tvArticle">Artikli:</string>
     <!-- ========== Orders fragment ==========  -->
 
 </resources>

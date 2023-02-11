@@ -69,7 +69,6 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
         rootView.requestLayout();
     } */
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +134,8 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
             query = comicsTable.orderByChild("name").limitToFirst(page*LoadMore);
         }
 
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(
+                new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -200,7 +200,7 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
             }
         });
     }
-    private void SortByPublished()
+   /* private void SortByPublished()
     {
         Collections.sort(listComics, new Comparator<Product>() {
             public int compare(Product obj1, Product obj2) {
@@ -216,7 +216,7 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
                 }
             }
         });
-    }
+    } */
 
 
     @Override

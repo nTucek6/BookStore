@@ -94,7 +94,6 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
     // on scroll change we are checking when users scroll as bottom.
     if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
         page++;
-        //loadingPB.setVisibility(View.VISIBLE);
         LLLoading.setVisibility(View.VISIBLE);
 
         ReadFromDatabase();
@@ -128,7 +127,7 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
             query = booksTable.orderByChild("name").limitToFirst(page*LoadMore);
         }
 
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -195,7 +194,7 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
         });
     }
 
-    private void SortByPublished()
+  /*  private void SortByPublished()
     {
         Collections.sort(listBooks, new Comparator<Product>() {
             public int compare(Product obj1, Product obj2) {
@@ -211,7 +210,7 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
                 }
             }
         });
-    }
+    } */
 
 
 }

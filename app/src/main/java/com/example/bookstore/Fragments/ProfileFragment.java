@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
+
 
     private View rootView;
 
@@ -65,8 +65,6 @@ public class ProfileFragment extends Fragment {
                 ((MainActivity)getActivity()).ProfileFragment();
             }
         });
-
-
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

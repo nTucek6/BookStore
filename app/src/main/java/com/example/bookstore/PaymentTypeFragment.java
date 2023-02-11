@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,7 +114,7 @@ public class PaymentTypeFragment extends Fragment {
                     {
                         if(radio_paymentType.equals(rootView.findViewById(R.id.radio_onDelivery)))
                         {
-                            FinishOrder("onDelivery");
+                            FinishOrder("On delivery");
                         }
                         else if(radio_paymentType.equals(rootView.findViewById(R.id.radio_Card)))
                         {
@@ -176,16 +177,16 @@ public class PaymentTypeFragment extends Fragment {
 
                         if(card.getBalance() > price)
                         {
-                            card.setBalance(card.getBalance()-price);
-                            Map<String, Object> cardValues = card.toMap();
-                            cardTable.child(data.getKey()).updateChildren(cardValues);
-                            FinishOrder("Card");
+                          card.setBalance((card.getBalance()-price));
+
+                          Map<String, Object> cardValues = card.toMap();
+                          cardTable.child(data.getKey()).updateChildren(cardValues);
+                          FinishOrder("Card");
                         }
                         else
                         {
                             Toast.makeText(getActivity(), "Transakcija je odbijena!", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     }

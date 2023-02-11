@@ -160,7 +160,7 @@ public class ProductInfoFragment extends Fragment {
 
     private void ReadProductFromDatabase(String key) {
         Query query = productsTable.orderByChild("productId").equalTo(key);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
