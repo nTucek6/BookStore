@@ -72,7 +72,6 @@ public class UserFragment extends Fragment {
 
         SetEditText();
 
-
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,7 +148,6 @@ public class UserFragment extends Fragment {
         {
             return false;
         }
-
     }
 
     private void UpdateUserInfo()

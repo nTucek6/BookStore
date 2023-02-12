@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bookstore.Classes.NoInternet;
 import com.example.bookstore.Classes.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,11 +39,16 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
+
+    private NoInternet noInternet = new NoInternet();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide(); // Removes top bar
         setContentView(R.layout.activity_register);
+
+        noInternet.InternetLost(RegisterActivity.this,false);
 
         progressBar = findViewById(R.id.progressBar);
         toggleProgressBar(false);

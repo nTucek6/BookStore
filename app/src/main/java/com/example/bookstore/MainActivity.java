@@ -5,14 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.bookstore.Classes.NoInternet;
 import com.example.bookstore.Classes.Product;
 import com.example.bookstore.Classes.Products;
 import com.example.bookstore.Classes.ShoppingCart;
@@ -25,6 +35,7 @@ import com.example.bookstore.Fragments.ProfileFragments.UserFragment;
 import com.example.bookstore.Fragments.ShoppingCartFragment;
 import com.example.bookstore.databinding.ActivityMainBinding;
 
+import java.security.Key;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,14 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private ShoppingCartFragment shoppingCartFragment;
     private ProfileFragment profileFragment;
 
+    private NoInternet noInternet = new NoInternet();
 
-   /* @Override
-    public void onPause()
-    {
-        super.onPause();
-        startActivity(new Intent(MainActivity.this,MainActivity.class));
-        this.finish();
-    } */
 
     public void onConfigurationChanged(Configuration newConfig) {
 
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportFragmentManager().findFragmentById(R.id.frame_layout) == homeFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == profileFragment || getSupportFragmentManager().findFragmentById(R.id.frame_layout) == shoppingCartFragment) {
             if (pressedTime + 2000 > System.currentTimeMillis()) {
                 super.onBackPressed();
-                finish();
+                this.finish();
             } else {
                 Toast.makeText(getBaseContext(), getString(R.string.ExitDialog), Toast.LENGTH_SHORT).show();
             }
@@ -77,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        noInternet.InternetLost(MainActivity.this,true);
 
         homeFragment = new HomeFragment();
         shoppingCartFragment = new ShoppingCartFragment();
@@ -219,5 +227,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.frame_layout, new SearchFragment());
         fragmentTransaction.commit();
     }
+
 
 }
