@@ -26,6 +26,7 @@ import com.example.bookstore.Fragments.ShoppingCartFragment;
 import com.example.bookstore.Interfaces.SelectOrderListener;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +36,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -49,10 +51,14 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
     private OrdersAdapter ordersAdapter;
     private ImageView ivBack;
     private LinearLayout llOrdersEmpty;
+    private TabLayout tabLayout;
 
     private List<Order> orderList = new ArrayList<>();
 
     private DatabaseReference ordersTable;
+
+    public OrdersFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,8 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
         ordersRecyclerView = rootView.findViewById(R.id.rvOrdersInfo);
         ivBack = rootView.findViewById(R.id.ivBack);
         llOrdersEmpty = rootView.findViewById(R.id.llOrdersEmpty);
+        tabLayout = rootView.findViewById(R.id.tabLayoutSort);
+        tabLayout.setVisibility(View.INVISIBLE);
 
         GetUserOrders();
 
@@ -76,6 +84,23 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).PopBackStack();
+            }
+        });
+
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Collections.reverse(orderList);
+                SetUpRecyclerView();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
 
@@ -96,7 +121,9 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
                     orderList.add(order);
                 }
                 if (orderList.size() > 0) {
+                    Collections.reverse(orderList);
                     llOrdersEmpty.setVisibility(View.INVISIBLE);
+                    tabLayout.setVisibility(View.VISIBLE);
                     SetUpRecyclerView();
                 }
             }
@@ -106,7 +133,6 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void SetUpRecyclerView() {
@@ -135,10 +161,12 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
             count++;
         }
 
+        String price = String.format("%.2f", order.getTotalPrice()).replace(",", ".");
+
         ((TextView) dialog.findViewById(R.id.tvProductNames)).setText(articles);
         ((TextView) dialog.findViewById(R.id.tvOrderKey)).setText(order.getOrderKey());
         ((TextView) dialog.findViewById(R.id.tvDate)).setText(order.getOrderDate());
-        ((TextView) dialog.findViewById(R.id.tvTotalPrice)).setText(String.valueOf(order.getTotalPrice()) + " " + order.getCurrency());
+        ((TextView) dialog.findViewById(R.id.tvTotalPrice)).setText(String.valueOf(price + " " + order.getCurrency()));
         ((TextView) dialog.findViewById(R.id.tvStatus)).setText(order.getStatus());
         ((TextView) dialog.findViewById(R.id.tvAddress)).setText(order.getAddress());
         ((TextView) dialog.findViewById(R.id.tvCity)).setText(order.getCity());

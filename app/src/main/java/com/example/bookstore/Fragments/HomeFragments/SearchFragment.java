@@ -81,29 +81,26 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
-                if(searchArticle.getText().length() == 0)
-                {
-                    productList = new ArrayList<>();
-                    SetUpRecyclerView();
+                    if (searchArticle.getText().length() == 0) {
+                        productList = new ArrayList<>();
+                        SetUpRecyclerView();
+                    }
                 }
-            }
                 return false;
-        }
-    });
+            }
+        });
 
         searchArticle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(!s.toString().isEmpty())
-                {
+                if (!s.toString().isEmpty()) {
                     SearchArticle(s.toString());
-                }
-                else
-                {
+                } else {
                     productList = new ArrayList<>();
                     SetUpRecyclerView();
                 }
@@ -117,31 +114,30 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).PopBackStack();
+                ((MainActivity) getActivity()).PopBackStack();
             }
         });
 
         return rootView;
     }
 
-    private void SearchArticle(String search)
-    {
+    private void SearchArticle(String search) {
         Query bookQuery = booksTable.orderByChild("name");
         bookQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 productList = new ArrayList<>();
-                for (DataSnapshot data: snapshot.getChildren()){
+                for (DataSnapshot data : snapshot.getChildren()) {
                     Product product = new Product();
                     product = data.getValue(Product.class);
                     product.setKey(data.getKey());
 
-                    if(product.getName().toLowerCase().contains(search.toLowerCase()))
-                    {
+                    if (product.getName().toLowerCase().contains(search.toLowerCase())) {
                         productList.add(product);
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -152,18 +148,18 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
         comicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data: snapshot.getChildren()){
+                for (DataSnapshot data : snapshot.getChildren()) {
                     Product product = new Product();
                     product = data.getValue(Product.class);
                     product.setKey(data.getKey());
 
-                    if(product.getName().toLowerCase().contains(search.toLowerCase()))
-                    {
+                    if (product.getName().toLowerCase().contains(search.toLowerCase())) {
                         productList.add(product);
                     }
                 }
                 SetUpRecyclerView();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
@@ -171,17 +167,16 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
         });
     }
 
-    private void SetUpRecyclerView()
-    {
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
+    private void SetUpRecyclerView() {
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rvSearch.setLayoutManager(layoutManager);
-        searchAdapter = new SearchAdapter(productList,SearchFragment.this);
+        searchAdapter = new SearchAdapter(productList, SearchFragment.this);
         rvSearch.setAdapter(searchAdapter);
     }
 
 
     @Override
     public void onArticleClicked(Product article, String type) {
-        ((MainActivity) getActivity()).ArticleInfo(article,type);
+        ((MainActivity) getActivity()).ArticleInfo(article, type);
     }
 }

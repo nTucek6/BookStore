@@ -51,14 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
     private NoInternet noInternet = new NoInternet();
 
-
     public void onConfigurationChanged(Configuration newConfig) {
 
         super.onConfigurationChanged(newConfig);
         startActivity(new Intent(MainActivity.this, MainActivity.class));
         this.finish();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -82,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         noInternet.InternetLost(MainActivity.this,true);
 

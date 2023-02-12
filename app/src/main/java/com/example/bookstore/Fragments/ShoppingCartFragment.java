@@ -38,8 +38,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -71,13 +73,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
         if (productAdapter != null) {
             productAdapter.notifyDataSetChanged();
         }
-
-      /* if(productRecyclerView != null && shoppingCartList.size() > 0)
-        {
-            SetUpRecyclerView();
-            SetUpInfo();
-        }*/
-
     }
 
     @Override
@@ -260,7 +255,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        //Query query = shoppingCartTable.orderByChild("productId").equalTo(product.getKey());
                         Query query = shoppingCartTable.orderByChild("userUID").equalTo(userUID);
                         query.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -284,7 +278,6 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
                                     SetUpInfo();
                                 }
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                                 Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
@@ -312,7 +305,8 @@ public class ShoppingCartFragment extends Fragment implements DeleteArticleListe
         }
 
         tvItemsCount.setText(getString(R.string.Items) + "(" + quantity + ")");
-        tvToPay.setText(getString(R.string.ToPay) + ": " + price + " EUR");
+        tvToPay.setText(getString(R.string.ToPay) + ": " + String.format("%.2f",price).replace("," , ".")+ " EUR");
+
     }
 
     private void RemoveFromCartAndProducts(String key) {

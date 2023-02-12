@@ -76,6 +76,7 @@ public class NoInternet {
                         activity.finish();
                     }
 
+
                 }
 
                 return false;
