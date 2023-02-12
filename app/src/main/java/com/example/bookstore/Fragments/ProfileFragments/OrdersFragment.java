@@ -50,7 +50,6 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
     private ImageView ivBack;
     private LinearLayout llOrdersEmpty;
 
-
     private List<Order> orderList = new ArrayList<>();
 
     private DatabaseReference ordersTable;

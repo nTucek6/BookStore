@@ -92,6 +92,8 @@ public class AllComicsFragment extends Fragment implements SelectArticleListener
             ReadFromDatabase();
         }
 
+
+
         nestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {

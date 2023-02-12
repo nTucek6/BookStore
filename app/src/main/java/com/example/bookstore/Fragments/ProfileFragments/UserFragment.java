@@ -190,6 +190,7 @@ public class UserFragment extends Fragment {
             User user = new User(mUser.getUid(),name,surname,address,city);
             Map<String, Object> userValues = user.toMap();
             userTable.child(tableKey).updateChildren(userValues);
+            Toast.makeText(getActivity(), "Update successful", Toast.LENGTH_SHORT).show();
         }
 
     }
