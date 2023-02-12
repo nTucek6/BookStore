@@ -121,7 +121,6 @@ public class SearchFragment extends Fragment implements SelectArticleListener {
             }
         });
 
-
         return rootView;
     }
 

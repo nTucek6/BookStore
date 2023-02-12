@@ -60,6 +60,7 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
         super.onCreate(savedInstanceState);
         ordersTable = FirebaseDatabase.getInstance().getReference("orders");
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,40 +71,37 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
         ivBack = rootView.findViewById(R.id.ivBack);
         llOrdersEmpty = rootView.findViewById(R.id.llOrdersEmpty);
 
-
         GetUserOrders();
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).PopBackStack();
+                ((MainActivity) getActivity()).PopBackStack();
             }
         });
 
         return rootView;
     }
 
-    private void GetUserOrders()
-    {
+    private void GetUserOrders() {
         Query query = ordersTable.orderByChild("userUID").equalTo(userUID);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot data : snapshot.getChildren())
-                {
+                for (DataSnapshot data : snapshot.getChildren()) {
                     Order order = new Order();
                     order = data.getValue(Order.class);
                     order.setOrderKey(data.getKey());
                     orderList.add(order);
                 }
-                if(orderList.size()>0)
-                {
+                if (orderList.size() > 0) {
                     llOrdersEmpty.setVisibility(View.INVISIBLE);
                     SetUpRecyclerView();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -111,11 +109,11 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
         });
 
     }
-    private void SetUpRecyclerView()
-    {
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
+
+    private void SetUpRecyclerView() {
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         ordersRecyclerView.setLayoutManager(layoutManager);
-        ordersAdapter = new OrdersAdapter(orderList,OrdersFragment.this);
+        ordersAdapter = new OrdersAdapter(orderList, OrdersFragment.this);
         ordersRecyclerView.setAdapter(ordersAdapter);
     }
 
@@ -129,27 +127,23 @@ public class OrdersFragment extends Fragment implements SelectOrderListener {
         String articles = "";
         int size = order.getArticle().size();
         int count = 1;
-        for (ProductOrderInfo product: order.getArticle())
-        {
-            if(count == size)
-            {
+        for (ProductOrderInfo product : order.getArticle()) {
+            if (count == size) {
                 articles += product.getArticleName();
-            }
-            else
-            {
-                articles += product.getArticleName()+", ";
+            } else {
+                articles += product.getArticleName() + ", ";
             }
             count++;
         }
 
-        ((TextView)dialog.findViewById(R.id.tvProductNames)).setText(articles);
-        ((TextView)dialog.findViewById(R.id.tvOrderKey)).setText(order.getOrderKey());
-        ((TextView)dialog.findViewById(R.id.tvDate)).setText(order.getOrderDate());
-        ((TextView)dialog.findViewById(R.id.tvTotalPrice)).setText(String.valueOf(order.getTotalPrice())+" " + order.getCurrency());
-        ((TextView)dialog.findViewById(R.id.tvStatus)).setText(order.getStatus());
-        ((TextView)dialog.findViewById(R.id.tvAddress)).setText(order.getAddress());
-        ((TextView)dialog.findViewById(R.id.tvCity)).setText(order.getCity());
-        ((TextView)dialog.findViewById(R.id.tvPaymentType)).setText(order.getOrderPaymentType());
+        ((TextView) dialog.findViewById(R.id.tvProductNames)).setText(articles);
+        ((TextView) dialog.findViewById(R.id.tvOrderKey)).setText(order.getOrderKey());
+        ((TextView) dialog.findViewById(R.id.tvDate)).setText(order.getOrderDate());
+        ((TextView) dialog.findViewById(R.id.tvTotalPrice)).setText(String.valueOf(order.getTotalPrice()) + " " + order.getCurrency());
+        ((TextView) dialog.findViewById(R.id.tvStatus)).setText(order.getStatus());
+        ((TextView) dialog.findViewById(R.id.tvAddress)).setText(order.getAddress());
+        ((TextView) dialog.findViewById(R.id.tvCity)).setText(order.getCity());
+        ((TextView) dialog.findViewById(R.id.tvPaymentType)).setText(order.getOrderPaymentType());
 
         dialog.show();
     }

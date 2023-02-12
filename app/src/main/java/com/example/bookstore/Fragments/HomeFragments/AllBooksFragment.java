@@ -51,7 +51,6 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
     private RecyclerView recyclerViewBook;
 
     private LinearLayout LLLoading;
-    //private ProgressBar loadingPB;
     private NestedScrollView nestedSV;
     private TabLayout tabLayoutFilter;
 
@@ -60,13 +59,11 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
 
     private int sortTab = 0;
 
-
     private DatabaseReference booksTable;
 
     private List<Product> listBooks = new ArrayList<>();
     private BookComicAdapter bookAdapter;
     private LinearLayoutManager layoutManager;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,41 +71,43 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
         booksTable = FirebaseDatabase.getInstance().getReference("books");
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_all_books, container, false);
         recyclerViewBook = rootView.findViewById(R.id.AllBooksRecyclerView);
-        //loadingPB = rootView.findViewById(R.id.idPBLoading);
-        nestedSV =  rootView.findViewById(R.id.idNestedSV);
+        nestedSV = rootView.findViewById(R.id.idNestedSV);
         LLLoading = rootView.findViewById(R.id.idLLLoading);
         tabLayoutFilter = rootView.findViewById(R.id.tabLayoutFilter);
 
-        if(listBooks.size() == 0)
-        {
+        if (listBooks.size() == 0) {
             ReadFromDatabase();
         }
-        nestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-        @Override
-    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-    // on scroll change we are checking when users scroll as bottom.
-    if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-        page++;
-        LLLoading.setVisibility(View.VISIBLE);
 
-        ReadFromDatabase();
-        }
-    }
-    });
+        nestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                // on scroll change we are checking when users scroll as bottom.
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    page++;
+                    LLLoading.setVisibility(View.VISIBLE);
+
+                    ReadFromDatabase();
+                }
+            }
+        });
 
         tabLayoutFilter.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 SortArticle(tab.getPosition());
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
@@ -118,21 +117,16 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
 
     private void ReadFromDatabase() {
         Query query = null;
-        if(sortTab == 0)
-        {
-           query = booksTable.limitToLast(page*LoadMore);
-        }
-        else
-        {
-            query = booksTable.orderByChild("name").limitToFirst(page*LoadMore);
+        if (sortTab == 0) {
+            query = booksTable.limitToLast(page * LoadMore);
+        } else {
+            query = booksTable.orderByChild("name").limitToFirst(page * LoadMore);
         }
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 LLLoading.setVisibility(View.INVISIBLE);
-
                 listBooks = new ArrayList<>();
                 Product book = new Product();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -142,51 +136,44 @@ public class AllBooksFragment extends Fragment implements SelectArticleListener 
                 }
                 if (listBooks.size() > 0) {
                     Collections.reverse(listBooks);
-                     if(sortTab == 1)
-                    {
+                    if (sortTab == 1) {
                         SortByName();
                     }
                     SetUpBookRecycleView();
                 }
-
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
-        }
+    }
 
-    private void SetUpBookRecycleView()
-    {
+    private void SetUpBookRecycleView() {
         layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerViewBook.setLayoutManager(layoutManager);
-        bookAdapter = new BookComicAdapter(listBooks, getActivity(), AllBooksFragment.this,"book");
+        bookAdapter = new BookComicAdapter(listBooks, getActivity(), AllBooksFragment.this, "book");
         recyclerViewBook.setAdapter(bookAdapter);
     }
 
     @Override
-    public void onArticleClicked(Product book,String type) {
-        ((MainActivity) getActivity()).ArticleInfo(book,"book");
+    public void onArticleClicked(Product book, String type) {
+        ((MainActivity) getActivity()).ArticleInfo(book, "book");
     }
 
-    private void SortArticle(int position)
-    {
-        if(position == 0)
-        {
+    private void SortArticle(int position) {
+        if (position == 0) {
             sortTab = 0;
             ReadFromDatabase();
-        }
-        else if(position == 1)
-        {
+        } else if (position == 1) {
             sortTab = 1;
             ReadFromDatabase();
         }
     }
 
-    private void SortByName()
-    {
-        Collections.sort(listBooks, new Comparator<Product>(){
+    private void SortByName() {
+        Collections.sort(listBooks, new Comparator<Product>() {
             public int compare(Product obj1, Product obj2) {
                 // ## Ascending order
                 return obj1.getName().compareToIgnoreCase(obj2.getName()); // To compare string values
