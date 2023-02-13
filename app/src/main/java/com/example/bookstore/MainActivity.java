@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private ShoppingCartFragment shoppingCartFragment;
     private ProfileFragment profileFragment;
 
-    private NoInternet noInternet = new NoInternet();
+    private NoInternet noInternet = new NoInternet(MainActivity.this,true);
+
 
     public void onConfigurationChanged(Configuration newConfig) {
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        noInternet.InternetLost(MainActivity.this,true);
+        noInternet.InternetLost();
 
         homeFragment = new HomeFragment();
         shoppingCartFragment = new ShoppingCartFragment();
@@ -224,6 +225,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.frame_layout, new SearchFragment());
         fragmentTransaction.commit();
     }
-
 
 }

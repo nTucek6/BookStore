@@ -3,10 +3,18 @@ package com.example.bookstore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -40,15 +48,11 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseUser mUser;
 
 
-    private NoInternet noInternet = new NoInternet();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide(); // Removes top bar
         setContentView(R.layout.activity_register);
-
-        noInternet.InternetLost(RegisterActivity.this,false);
 
         progressBar = findViewById(R.id.progressBar);
         toggleProgressBar(false);
@@ -175,7 +179,6 @@ public class RegisterActivity extends AppCompatActivity {
                        toggleProgressBar(false);
                        Toast.makeText(RegisterActivity.this,task.getException().toString(),Toast.LENGTH_SHORT).show();
                    }
-
                 }
             });
         }
@@ -186,8 +189,6 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(new Intent(RegisterActivity.this,MainActivity.class));
         RegisterActivity.this.finish();
     }
-
-
 
     private void toggleProgressBar(boolean toggle)
     {
@@ -200,7 +201,6 @@ public class RegisterActivity extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
-
 
     private void AddUserToDatabase(User user)
     {
@@ -216,6 +216,5 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }

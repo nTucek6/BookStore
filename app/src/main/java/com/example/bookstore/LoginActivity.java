@@ -3,11 +3,19 @@ package com.example.bookstore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -37,24 +45,19 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
-    private NoInternet noInternet = new NoInternet();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide(); // Removes top bar
 
-        noInternet.InternetLost(LoginActivity.this,false);
-
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-
 
         if (mUser != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
-
 
         setContentView(R.layout.activity_login);
 
@@ -188,6 +191,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 
 

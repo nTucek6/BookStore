@@ -2,6 +2,7 @@ package com.example.bookstore.Classes;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -19,8 +20,17 @@ public class NoInternet {
 
     public long pressedTime;
     public Dialog dialog;
+    private Activity activity;
+    private boolean onBackPressed;
 
-    public void InternetLost(Activity activity,boolean onBackPressed)
+    public NoInternet(Activity activity,boolean bool)
+    {
+        this.activity = activity;
+        this.onBackPressed = bool;
+    }
+
+
+    public void InternetLost()
     {
 
         dialog = new Dialog(activity,  android.R.style.Theme_Holo_Dialog);
